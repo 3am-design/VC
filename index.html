@@ -206,7 +206,7 @@
     <!-- Sticky 導航欄 -->
     <nav class="fixed top-[33px] w-full z-50 mix-blend-difference flex items-center justify-center pointer-events-none">
         <div id="nav-menu" class="flex justify-center items-center text-[15px] font-bold tracking-[0.1em] uppercase text-white transition-opacity duration-500 pointer-events-auto">
-            <div class="flex space-x-[68px] reveal-up" style="transition-delay: 1400ms;">
+            <div class="flex space-x-[68px] reveal-up" style="transition-delay: 2000ms;">
                 <a href="#about" class="relative group transition duration-300 cursor-pointer flex flex-col items-center">
                     <span class="leading-none">About</span>
                     <div class="absolute -bottom-4 w-1.5 h-1.5 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -244,7 +244,7 @@
 
             <div class="absolute bottom-12 inset-x-0 flex justify-center pointer-events-none">
                 <div class="custom-container flex justify-end">
-                    <div class="reveal-up pointer-events-auto" style="transition-delay: 2000ms;">
+                    <div class="reveal-up pointer-events-auto" style="transition-delay: 2600ms;">
                         <div class="w-[15px] h-[44px] border border-[#3D3D3D] rounded-full flex justify-center pt-[6px]">
                             <div class="w-[7px] h-[7px] bg-white rounded-full animate-scrolldrop"></div>
                         </div>
@@ -381,14 +381,13 @@
         </section>
     </main>
 
-    <!-- 背景變暗 Backdrop -->
-    <div id="modal-backdrop" class="fixed inset-0 z-[90000] bg-black/80 opacity-0 pointer-events-none transition-opacity duration-1000 hidden cursor-pointer"></div>
+    <!-- 背景變暗 Backdrop (移除了 cursor-pointer) -->
+    <div id="modal-backdrop" class="fixed inset-0 z-[90000] bg-black/80 opacity-0 pointer-events-none transition-opacity duration-1000 hidden"></div>
 
     <!-- Popup Modal -->
     <div id="project-modal" class="fixed inset-x-0 bottom-0 top-[81px] z-[99999] bg-[#1E1E1E] flex flex-col-reverse md:flex-row w-full translate-y-full transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] overflow-y-auto md:overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <div class="w-full md:w-2/3 h-auto md:h-full md:overflow-y-auto p-6 md:p-12 lg:p-20 hide-scrollbar cursor-none" id="modal-images-container"></div>
         <div class="w-full md:w-1/3 h-auto md:h-full bg-[#1E1E1E] p-8 md:p-12 lg:p-20 flex flex-col relative border-b md:border-b-0 md:border-l border-white/10 shrink-0">
-            <!-- 關閉按鈕 -->
             <div class="absolute top-8 right-8 md:top-12 md:right-12">
                 <button id="modal-close-btn" class="w-[75px] h-[75px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-300 cursor-pointer z-10">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -422,7 +421,8 @@
         });
 
         const bindHovers = () => {
-            document.querySelectorAll('a, button, .cursor-pointer:not(.portfolio-item)').forEach(el => {
+            // 只針對特定具備互動性的元素添加放大效果，排除 modal-backdrop
+            document.querySelectorAll('a, button, .cursor-pointer:not(.portfolio-item):not(#modal-backdrop)').forEach(el => {
                 el.addEventListener('mouseenter', () => cursor.classList.add('active'));
                 el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
             });
