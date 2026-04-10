@@ -329,7 +329,7 @@
                             <p class="leading-relaxed min-[820px]:leading-[1.2] lg:leading-[76px]">Awards winner with 10,000+ coffees</p>
                         </div>
                     </div>
-                    <div class="flex flex-wrap justify-center min-[820px]:justify-start gap-4 mt-8 min-[820px]:mt-8 lg:mt-[10px]">
+                    <div class="flex flex-wrap justify-center min-[820px]:justify-start gap-4 mt-8 md:mt-8 lg:mt-[10px]">
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 200ms;">TypeScript</span>
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 250ms;">Node.js</span>
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 300ms;">Python</span>
@@ -390,7 +390,7 @@
                     </h2>
                 </div>
                 <!-- 820px (min-[820px]): Email 與 Phone 齊頂對齊 (items-start) -->
-                <div class="col-span-4 min-[820px]:col-span-3 flex flex-col items-center min-[820px]:items-start justify-start mt-12 md:mt-12 lg:mt-0 text-center min-[820px]:text-left">
+                <div class="col-span-4 min-[820px]:col-span-3 flex flex-col items-center min-[820px]:items-start justify-start mt-12 min-[820px]:mt-0 lg:mt-0 text-center min-[820px]:text-left">
                     <a href="mailto:vcii@live.hk" class="text-[22px] min-[820px]:text-[35px] lg:text-[37px] font-medium leading-tight min-[820px]:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 100ms;">vcii@live.hk</a>
                     <a href="tel:+85298408445" class="mt-[28px] min-[820px]:mt-[36px] text-[22px] min-[820px]:text-[35px] lg:text-[37px] font-medium leading-tight min-[820px]:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 200ms;">+852 9840 8445</a>
                 </div>
@@ -405,27 +405,29 @@
     <!-- 背景變暗 Backdrop -->
     <div id="modal-backdrop" class="fixed inset-0 z-[90000] bg-black/80 opacity-0 pointer-events-none transition-opacity duration-800 hidden cursor-default"></div>
 
-    <!-- Popup Modal -->
-    <div id="project-modal" class="fixed inset-x-0 bottom-0 top-[81px] z-[99999] bg-[#1E1E1E] flex flex-col lg:flex-row w-full translate-y-full transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-y-auto lg:overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+    <!-- Popup Modal：1350px 以下為上下 display (flex-col)，以上為左右 (min-[1351px]:flex-row) -->
+    <div id="project-modal" class="fixed inset-x-0 bottom-0 top-[81px] z-[99999] bg-[#1E1E1E] flex flex-col min-[1351px]:flex-row w-full translate-y-full transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-y-auto min-[1351px]:overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         
-        <!-- 文字資訊容器 (iPad 820px 跟隨 Mobile 為 Order 1) -->
-        <div class="w-full lg:w-1/3 h-auto lg:h-full bg-[#1E1E1E] p-8 md:p-12 lg:p-20 flex flex-col relative border-b lg:border-b-0 lg:border-l border-white/10 shrink-0 text-center min-[820px]:text-center lg:text-left items-center lg:items-start order-1 lg:order-2">
+        <!-- 文字資訊容器：小於 1350px 時在頂部 (order-1) -->
+        <div class="w-full min-[1351px]:w-1/3 h-auto min-[1351px]:h-full bg-[#1E1E1E] p-8 md:p-12 lg:p-20 flex flex-col relative border-b min-[1351px]:border-b-0 min-[1351px]:border-l border-white/10 shrink-0 text-center min-[1351px]:text-left items-center min-[1351px]:items-start order-1 min-[1351px]:order-2">
             <div class="absolute top-8 right-8 md:top-12 md:right-12">
-                <button id="modal-close-btn" class="w-[38px] h-[38px] min-[820px]:w-[38px] lg:w-[75px] lg:h-[75px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-300 cursor-pointer z-10">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 md:w-3.5 md:h-3.5">
+                <!-- Close Button: < 1000px 為 47x47px，>= 1000px 為 75x75px -->
+                <button id="modal-close-btn" class="w-[47px] h-[47px] min-[1000px]:w-[75px] min-[1000px]:h-[75px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-300 cursor-pointer z-10">
+                    <!-- X Icon: < 1000px 為 9x9px，>= 1000px 為 14x14px -->
+                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[9px] h-[9px] min-[1000px]:w-[14px] min-[1000px]:h-[14px]">
                         <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
             </div>
-            <div class="mt-16 md:mt-24 lg:pr-4">
+            <div class="mt-16 md:mt-24 min-[1351px]:pr-4">
                 <p id="modal-category" class="text-[12px] min-[820px]:text-[12px] lg:text-[14px] text-gray-400 mb-4 tracking-wide"></p>
                 <h2 id="modal-title" class="text-[30px] min-[820px]:text-[38px] lg:text-[40px] font-bold text-white leading-tight mb-8"></h2>
                 <p id="modal-desc" class="text-[12px] min-[820px]:text-[14px] lg:text-[16px] text-gray-300 leading-relaxed font-light"></p>
             </div>
         </div>
 
-        <!-- 圖片容器 (Order 2) -->
-        <div class="w-full lg:w-2/3 h-auto lg:h-full lg:overflow-y-auto p-6 md:p-12 lg:p-20 hide-scrollbar cursor-none order-2 lg:order-1" id="modal-images-container">
+        <!-- 圖片容器：小於 1350px 時在下方 (order-2) -->
+        <div class="w-full min-[1351px]:w-2/3 h-auto min-[1351px]:h-full min-[1351px]:overflow-y-auto p-6 md:p-12 lg:p-20 hide-scrollbar cursor-none order-2 min-[1351px]:order-1" id="modal-images-container">
         </div>
 
     </div>
