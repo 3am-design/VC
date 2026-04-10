@@ -193,7 +193,7 @@
         </div>
     </div>
 
-    <!-- 自定義游標 (移動端會隱藏) -->
+    <!-- 自定義游標 (移動端會自動隱藏) -->
     <div id="custom-cursor">
         <span class="cursor-text absolute">DISCOVER</span>
         <svg class="cursor-scroll-icon absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" width="6" height="37" viewBox="0 0 6 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -215,7 +215,7 @@
         </video>
     </div>
 
-    <!-- Sticky 導航欄 -->
+    <!-- Sticky 導航欄 (置中優化) -->
     <nav class="fixed top-[33px] w-full z-50 mix-blend-difference flex items-center justify-center pointer-events-none">
         <div id="nav-menu" class="flex justify-center items-center text-[13px] md:text-[15px] font-bold tracking-[0.1em] uppercase text-white transition-opacity duration-500 pointer-events-auto">
             <div class="flex space-x-[34px] md:space-x-[68px] reveal-up" style="transition-delay: 2000ms;">
@@ -237,25 +237,25 @@
 
     <!-- 頁面內容區塊 -->
     <main>
-        <!-- Hero Section -->
+        <!-- Hero Section (置中優化) -->
         <section id="hero" class="relative h-screen min-h-[600px] flex flex-col items-center justify-center pt-20">
-            <div class="flex flex-col items-center -translate-y-[100px]">
+            <div class="flex flex-col items-center -translate-y-[100px] z-10 text-center">
                 <p class="text-[20px] md:text-[22px] font-normal tracking-[0.02em] text-white mb-6 reveal-up" style="transition-delay: 200ms;">Hello! I am Vincent.</p>
-                <h1 class="text-[48px] md:text-[87px] font-light tracking-[0.02em] text-center leading-tight md:leading-[100px] text-white reveal-up max-w-[280px] md:max-w-none" style="transition-delay: 800ms;">
+                <h1 class="text-[48px] md:text-[87px] font-light tracking-[0.02em] text-center leading-tight md:leading-[100px] text-white reveal-up max-w-[320px] md:max-w-none" style="transition-delay: 800ms;">
                     Backend Architect & <br class="hidden md:block"> Systems Developer
                 </h1>
             </div>
             
-            <div class="absolute bottom-[80px] inset-x-0 flex justify-center px-4">
+            <div class="absolute bottom-[80px] inset-x-0 flex justify-center px-4 z-10 reveal-up" style="transition-delay: 1400ms;">
                 <div class="custom-container flex justify-center">
-                    <p class="text-[14px] md:text-[22px] font-normal tracking-[0.02em] leading-relaxed md:leading-[35px] text-white text-center max-w-2xl reveal-up" style="transition-delay: 1400ms;">
+                    <p class="text-[14px] md:text-[22px] font-normal tracking-[0.02em] leading-relaxed md:leading-[35px] text-white text-center max-w-2xl">
                         Engineering robust logic and scalable foundations for <br class="hidden md:block"> complex digital ecosystems.
                     </p>
                 </div>
             </div>
 
-            <div class="absolute bottom-12 inset-x-0 flex justify-center pointer-events-none">
-                <div class="custom-container flex justify-end">
+            <div class="absolute bottom-12 inset-x-0 flex justify-center pointer-events-none z-10">
+                <div class="custom-container flex justify-center md:justify-end">
                     <div class="reveal-up pointer-events-auto" style="transition-delay: 2600ms;">
                         <div class="w-[15px] h-[44px] border border-[#3D3D3D] rounded-full flex justify-center pt-[6px]">
                             <div class="w-[7px] h-[7px] bg-white rounded-full animate-scrolldrop"></div>
@@ -265,16 +265,16 @@
             </div>
         </section>
 
-        <!-- About Section -->
+        <!-- About Section (置中優化) -->
         <section id="about" class="custom-container mt-20">
             <div class="reveal-line mb-8"></div>
             <div class="py-20 md:py-32 grid grid-cols-4 md:grid-cols-6 gap-[10px] md:gap-[20px] lg:gap-[30px] xl:gap-[40px]">
-                <div class="col-span-4 md:col-span-3">
+                <div class="col-span-4 md:col-span-3 text-center md:text-left">
                     <h2 class="text-[34px] md:text-[55px] font-normal leading-tight md:leading-[70px] tracking-[0px] text-white md:pr-10 mb-8 md:mb-0 reveal-up">
                         Building the invisible <br>power that drives <br>seamless experiences.
                     </h2>
                 </div>
-                <div class="col-span-4 md:col-span-2 flex flex-col justify-center space-y-6">
+                <div class="col-span-4 md:col-span-3 flex flex-col justify-center space-y-6 text-center md:text-left">
                     <p class="text-[14px] md:text-[20px] font-normal leading-relaxed md:leading-[30px] tracking-[0px] text-white reveal-up" style="transition-delay: 100ms;">
                         I specialize in the "under the hood" of digital products — where logic meets performance. With a focus on backend architecture, system integration, and database optimization, I transform complex business requirements into stable, high-performance technical solutions.
                     </p>
@@ -309,21 +309,22 @@
             </div>
         </section>
 
-        <!-- Stats Section (Award Logos 佈局更新) -->
-        <section class="custom-container mb-[60px]">
+        <!-- Stats Section (修正重疊問題 & 置中) -->
+        <section id="stats" class="custom-container mb-[60px]">
             <div class="pt-[32px] pb-16 grid grid-cols-4 md:grid-cols-6 gap-[10px] md:gap-[20px] lg:gap-[30px] xl:gap-[40px] items-start">
-                <div class="col-span-4 md:col-span-3 text-white">
+                <div class="col-span-4 md:col-span-3 text-white text-center md:text-left">
                     <div class="text-[18px] md:text-[30px] font-normal tracking-[0px]">
-                        <div class="flex items-center space-x-4 reveal-up">
-                            <div class="w-[7px] h-[7px] bg-white rounded-full shrink-0"></div>
+                        <div class="flex flex-col md:flex-row items-center md:items-center md:space-x-4 reveal-up">
+                            <div class="hidden md:block w-[7px] h-[7px] bg-white rounded-full shrink-0"></div>
                             <p class="leading-relaxed md:leading-[76px]">15+ years of experience</p>
                         </div>
-                        <div class="flex items-center space-x-4 -mt-[20px] reveal-up" style="transition-delay: 100ms;">
-                            <div class="w-[7px] h-[7px] bg-white rounded-full shrink-0"></div>
+                        <!-- 移除移動端負邊距，解決文字重疊 -->
+                        <div class="flex flex-col md:flex-row items-center md:items-center md:space-x-4 md:-mt-[20px] reveal-up" style="transition-delay: 100ms;">
+                            <div class="hidden md:block w-[7px] h-[7px] bg-white rounded-full shrink-0"></div>
                             <p class="leading-relaxed md:leading-[76px]">Awards winner with 10,000+ coffees</p>
                         </div>
                     </div>
-                    <div class="flex flex-wrap gap-4 mt-2 md:mt-[10px]">
+                    <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-8 md:mt-[10px]">
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] md:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 200ms;">TypeScript</span>
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] md:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 250ms;">Node.js</span>
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] md:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 300ms;">Python</span>
@@ -332,8 +333,8 @@
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] md:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 450ms;">SQL</span>
                     </div>
                 </div>
-                <!-- Award Logos: 移動端 3x2 排列，間距加寬，尺寸細 20% -->
-                <div class="col-span-4 md:col-start-4 md:col-span-3 grid grid-cols-3 gap-y-12 gap-x-4 md:flex md:flex-wrap md:gap-12 items-center justify-items-center md:justify-start mt-12 md:mt-[20px]">
+                <!-- Award Logos: 3x2 置中網格 -->
+                <div class="col-span-4 md:col-start-4 md:col-span-3 grid grid-cols-3 gap-y-12 gap-x-4 md:flex md:flex-wrap md:gap-12 items-center justify-items-center md:justify-start mt-16 md:mt-[20px]">
                     <img src="./assets/home/HKDA.svg" alt="HKDA" class="w-[33px] md:w-[41px] object-contain brightness-0 invert reveal-up" style="transition-delay: 100ms;">
                     <img src="./assets/home/Awwwards.svg" alt="Awwwards" class="w-[96px] md:w-[120px] object-contain brightness-0 invert reveal-up" style="transition-delay: 150ms;">
                     <img src="./assets/home/W3.svg" alt="W3" class="w-[29px] md:w-[36px] object-contain brightness-0 invert reveal-up" style="transition-delay: 200ms;">
@@ -374,16 +375,16 @@
             </div>
         </section>
 
-        <!-- Talk Section -->
+        <!-- Talk Section (置中優化) -->
         <section id="talk" class="custom-container">
             <div class="reveal-line mb-8"></div>
             <div class="pt-20 grid grid-cols-4 md:grid-cols-6 gap-[10px] md:gap-[20px] lg:gap-[30px] xl:gap-[40px]">
-                <div class="col-span-4 md:col-span-3">
+                <div class="col-span-4 md:col-span-3 text-center md:text-left">
                     <h2 class="text-[34px] md:text-[55px] font-normal leading-tight md:leading-[70px] tracking-[0px] text-white reveal-up">
                         Ready to build <br> something solid? <br> Let's talk.
                     </h2>
                 </div>
-                <div class="col-span-4 md:col-span-3 flex flex-col items-start justify-start mt-8 md:mt-0">
+                <div class="col-span-4 md:col-span-3 flex flex-col items-center md:items-start justify-start mt-12 md:mt-0 text-center md:text-left">
                     <a href="mailto:vcii@live.hk" class="text-[22px] md:text-[37px] font-medium leading-tight md:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 100ms;">vcii@live.hk</a>
                     <a href="tel:+85298408445" class="mt-[28px] md:mt-[36px] text-[22px] md:text-[37px] font-medium leading-tight md:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 200ms;">+852 9840 8445</a>
                 </div>
@@ -397,10 +398,10 @@
     <!-- 背景變暗 Backdrop -->
     <div id="modal-backdrop" class="fixed inset-0 z-[90000] bg-black/80 opacity-0 pointer-events-none transition-opacity duration-800 hidden cursor-default"></div>
 
-    <!-- Popup Modal -->
+    <!-- Popup Modal (置中優化) -->
     <div id="project-modal" class="fixed inset-x-0 bottom-0 top-[81px] z-[99999] bg-[#1E1E1E] flex flex-col-reverse md:flex-row w-full translate-y-full transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-y-auto md:overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <div class="w-full md:w-2/3 h-auto md:h-full md:overflow-y-auto p-6 md:p-12 lg:p-20 hide-scrollbar cursor-none" id="modal-images-container"></div>
-        <div class="w-full md:w-1/3 h-auto md:h-full bg-[#1E1E1E] p-8 md:p-12 lg:p-20 flex flex-col relative border-b md:border-b-0 md:border-l border-white/10 shrink-0">
+        <div class="w-full md:w-1/3 h-auto md:h-full bg-[#1E1E1E] p-8 md:p-12 lg:p-20 flex flex-col relative border-b md:border-b-0 md:border-l border-white/10 shrink-0 text-center md:text-left items-center md:items-start">
             <div class="absolute top-8 right-8 md:top-12 md:right-12">
                 <button id="modal-close-btn" class="w-[75px] h-[75px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-300 cursor-pointer z-10">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -408,7 +409,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="mt-16 md:mt-24 pr-4">
+            <div class="mt-16 md:mt-24 md:pr-4">
                 <p id="modal-category" class="text-[12px] md:text-[14px] text-gray-400 mb-4 tracking-wide"></p>
                 <h2 id="modal-title" class="text-[30px] md:text-[40px] font-bold text-white leading-tight mb-8"></h2>
                 <p id="modal-desc" class="text-[12px] md:text-[16px] text-gray-300 leading-relaxed font-light"></p>
@@ -449,6 +450,7 @@
         modalImagesContainer.addEventListener('mouseenter', () => cursor.classList.add('scroll-mode'));
         modalImagesContainer.addEventListener('mouseleave', () => cursor.classList.remove('scroll-mode'));
 
+        // 優化觀測器觸發靈敏度
         const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -456,7 +458,7 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+        }, { threshold: 0.01, rootMargin: "0px 0px 100px 0px" });
 
         // Intro Logic
         const typingText = "Hello! I am Vincent.";
@@ -578,7 +580,6 @@
                 logoContainer.classList.add('pointer-events-none');
                 document.documentElement.classList.add('lock-scroll');
                 document.body.classList.add('lock-scroll');
-                cursor.classList.remove('discover');
             });
         });
 
