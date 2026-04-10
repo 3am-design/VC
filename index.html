@@ -66,7 +66,7 @@
         }
         @keyframes blink { from, to { opacity: 1; } 50% { opacity: 0; } }
 
-        /* --- 全站入場動畫 (1.8s - 2.2s) --- */
+        /* --- 全站入場動畫 --- */
         .reveal-up {
             opacity: 0;
             transform: translateY(30px);
@@ -78,7 +78,6 @@
             transform: translateY(0);
         }
 
-        /* 圖片專屬：回歸普通由下而上滑入，移除 Glitch */
         .reveal-image {
             opacity: 0;
             transform: translateY(30px);
@@ -206,7 +205,7 @@
         </video>
     </div>
 
-    <!-- Sticky 導航欄 (在 Engineering 出完後才出現) -->
+    <!-- Sticky 導航欄 -->
     <nav class="fixed top-[33px] w-full z-50 mix-blend-difference flex items-center justify-center pointer-events-none">
         <div id="nav-menu" class="flex justify-center items-center text-[15px] font-bold tracking-[0.1em] uppercase text-white transition-opacity duration-500 pointer-events-auto">
             <div class="flex space-x-[68px] reveal-up" style="transition-delay: 2000ms;">
@@ -337,7 +336,6 @@
         <!-- Works Section -->
         <section id="works" class="custom-container pb-32">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-[10px] md:gap-[20px] lg:gap-[30px] xl:gap-[40px]">
-                <!-- 移除 opacity-80，保持原色 100% 亮度 -->
                 <div class="portfolio-item col-span-1 lg:col-span-4 aspect-[4/3] lg:aspect-[1132/695] w-full bg-[#2a2a2a] cursor-pointer overflow-hidden group reveal-image" data-id="01">
                     <img src="./assets/works/01/01_image_01.webp" alt="Work 01" class="w-full h-full object-cover opacity-100 transition duration-500 group-hover:scale-[1.02]">
                 </div>
@@ -387,10 +385,10 @@
         </section>
     </main>
 
-    <!-- 背景變暗 Backdrop (速度調慢至 0.8s) -->
+    <!-- 背景變暗 Backdrop (加入絲滑淡入淡出 transition) -->
     <div id="modal-backdrop" class="fixed inset-0 z-[90000] bg-black/80 opacity-0 pointer-events-none transition-opacity duration-800 hidden cursor-default"></div>
 
-    <!-- Popup Modal (速度調慢至 1.0s) -->
+    <!-- Popup Modal -->
     <div id="project-modal" class="fixed inset-x-0 bottom-0 top-[81px] z-[99999] bg-[#1E1E1E] flex flex-col-reverse md:flex-row w-full translate-y-full transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-y-auto md:overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <div class="w-full md:w-2/3 h-auto md:h-full md:overflow-y-auto p-6 md:p-12 lg:p-20 hide-scrollbar cursor-none" id="modal-images-container"></div>
         <div class="w-full md:w-1/3 h-auto md:h-full bg-[#1E1E1E] p-8 md:p-12 lg:p-20 flex flex-col relative border-b md:border-b-0 md:border-l border-white/10 shrink-0">
@@ -524,11 +522,15 @@
         const modalBackdrop = document.getElementById('modal-backdrop');
         const navMenu = document.getElementById('nav-menu');
 
-        // 統一關閉函數 (調慢至 1000ms)
+        // 統一關閉函數 (調慢至 1000ms，確保淡出動畫完成)
         const closeModal = () => {
             modal.classList.add('translate-y-full');
+            
+            // 背景遮罩執行淡出
+            modalBackdrop.classList.remove('opacity-100');
             modalBackdrop.classList.add('opacity-0');
             modalBackdrop.classList.add('pointer-events-none');
+            
             navMenu?.classList.remove('opacity-0', 'pointer-events-none');
             logoContainer.classList.remove('pointer-events-none');
             
@@ -556,22 +558,18 @@
                     img.onerror = function() { this.remove(); };
                     modalImagesContainer.appendChild(img);
                     
-                    // 重新觸發經典入場特效 (由下而上)
                     setTimeout(() => img.classList.add('active'), 100 + (i * 150));
                 }
                 
-                // 顯示遮罩
+                // 顯示遮罩並啟動淡入
                 modalBackdrop.classList.remove('hidden');
                 modalBackdrop.classList.remove('pointer-events-none');
-                // 觸發重繪以確保動畫生效
-                void modalBackdrop.offsetWidth;
-                modalBackdrop.classList.add('opacity-100');
+                void modalBackdrop.offsetWidth; // 觸發重繪
                 modalBackdrop.classList.remove('opacity-0');
+                modalBackdrop.classList.add('opacity-100');
                 
                 modal.classList.remove('translate-y-full');
                 navMenu?.classList.add('opacity-0', 'pointer-events-none');
-                
-                // 徹底鎖定背景點擊，包括 Logo
                 logoContainer.classList.add('pointer-events-none');
                 
                 document.documentElement.classList.add('lock-scroll');
