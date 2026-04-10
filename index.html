@@ -220,6 +220,7 @@
     <!-- 中間的 3D 賽博球體 (全螢幕容器)。調整基礎透明度至 0.95 以明顯化 -->
     <div id="bg-video-wrapper" class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-95 transition-opacity duration-700 flex items-center justify-center mix-blend-screen overflow-hidden">
         <!-- Canvas 將由 Three.js 動態注入於此 -->
+        <!-- Facebook Blue 氛圍強化：調整顏色飽和度 -->
         <div id="canvas-depth-layer" style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(0, 40, 110, 0.45) 0%, rgba(0,0,0,1) 80%);"></div>
     </div>
 
@@ -415,7 +416,7 @@
             <div class="absolute top-8 right-8 md:top-12 md:right-12 min-[1351px]:relative min-[1351px]:top-0 min-[1351px]:right-0 min-[1351px]:w-full min-[1351px]:flex min-[1351px]:justify-end">
                 <button id="modal-close-btn" class="
                     /* Mobile/Vertical: Pill button at bottom */
-                    fixed bottom-[35px] left-1/2 -translate-x-1/2 w-auto h-auto px-12 py-4 bg-white text-black rounded-full font-bold text-[14px] tracking-widest uppercase
+                    fixed bottom-[20px] left-1/2 -translate-x-1/2 w-auto h-auto px-12 py-4 bg-white text-black rounded-full font-bold text-[14px] tracking-widest uppercase
                     /* Desktop/Horizontal: Circular icon button at top-right */
                     min-[1351px]:absolute min-[1351px]:top-0 min-[1351px]:right-0 min-[1351px]:bottom-auto min-[1351px]:left-auto min-[1351px]:translate-x-0
                     min-[1351px]:w-[75px] min-[1351px]:h-[75px] min-[1351px]:bg-transparent min-[1351px]:text-white min-[1351px]:border min-[1351px]:border-white/30
@@ -650,7 +651,7 @@
                 const scanEffect = Math.max(0, 1 - Math.abs(oy - scanY) * 9) * 1.6;
                 const interactEffect = dist < 0.7 ? (0.7 - dist) * 4.2 : 0;
                 
-                // 明顯化強化：提升基底亮度至 0.45 (+5%)
+                // 明興化強化：提升基底亮度至 0.45 (+5%)
                 brightAttr[i] = 0.45 + scanEffect + interactEffect + noise * 5.5;
 
                 const scale = 1 + noise + Math.min(displacements[i], 0.55);
