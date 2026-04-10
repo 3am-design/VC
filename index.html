@@ -210,8 +210,8 @@
         <div class="grid-col-guide"></div><div class="grid-col-guide"></div><div class="grid-col-guide"></div>
     </div>
 
-    <!-- 中間的 3D 地球 (全螢幕 Canvas 容器，解決 Crop 問題) -->
-    <div id="bg-video-wrapper" class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-80 transition-opacity duration-700 flex items-center justify-center mix-blend-screen overflow-hidden">
+    <!-- 中間的 3D 地球 (全螢幕 Canvas 容器，解決 Crop 問題)。調整基礎透明度至 0.7 (opacity-70) 以淡化 10% -->
+    <div id="bg-video-wrapper" class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-70 transition-opacity duration-700 flex items-center justify-center mix-blend-screen overflow-hidden">
         <!-- Canvas 將由 Three.js 動態注入於此 -->
     </div>
 
@@ -526,17 +526,17 @@
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             wrapper.appendChild(renderer.domElement);
 
-            // 球體半徑 1.1
-            const geometry = new THREE.SphereGeometry(1.1, 128, 128);
+            // 球體半徑 1.1，將點數減少 20% (128 -> 114)
+            const geometry = new THREE.SphereGeometry(1.1, 114, 114);
             
             originalVertices = new Float32Array(geometry.attributes.position.array);
             displacements = new Float32Array(geometry.attributes.position.count).fill(0);
 
             const material = new THREE.PointsMaterial({
                 color: 0xffffff,
-                size: 0.008, // 調大點點尺寸，使其更明顯
+                size: 0.008, 
                 transparent: true,
-                opacity: 1.0, // 點點本身不透明，讓它更亮
+                opacity: 0.9, // 淡色 10% (原本 1.0)
                 blending: THREE.AdditiveBlending
             });
 
@@ -622,8 +622,8 @@
 
         window.addEventListener('scroll', () => {
             const pageYOffset = window.pageYOffset;
-            // 提升整體亮度，滑動時透明度為 0.4，原本預設為 0.8
-            bgVideoWrapper.style.opacity = pageYOffset > (heroSection?.offsetHeight || 0) * 0.5 ? '0.4' : '0.8';
+            // 提升整體亮度，滑動時透明度為 0.35，原本預設為 0.7 (整體淡化 10%)
+            bgVideoWrapper.style.opacity = pageYOffset > (heroSection?.offsetHeight || 0) * 0.5 ? '0.35' : '0.7';
             
             if (pageYOffset > 100) {
                 logoContainer.classList.remove('opacity-0');
