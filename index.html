@@ -68,7 +68,6 @@
             color: #fff;
             text-align: center;
         }
-        /* 820px (iPad): Hello 動畫大字縮細 20% (85px -> 68px) */
         @media (min-width: 820px) { #typing-text { font-size: 68px; } }
         @media (min-width: 1024px) { #typing-text { font-size: 87px; } }
         
@@ -196,7 +195,7 @@
         </div>
     </div>
 
-    <!-- 自定義游標 (820px 以下隱藏) -->
+    <!-- 自定義游標 -->
     <div id="custom-cursor">
         <span class="cursor-text absolute">DISCOVER</span>
         <svg class="cursor-scroll-icon absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" width="6" height="37" viewBox="0 0 6 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -242,7 +241,6 @@
     <main>
         <!-- Hero Section -->
         <section id="hero" class="relative h-[100svh] min-h-[600px] flex flex-col items-center justify-center pt-10 min-[820px]:pt-20 overflow-hidden">
-            <!-- Backend 標題：820px 縮細 20% (由 85px -> 68px) -->
             <div class="flex flex-col items-center -translate-y-[80px] min-[820px]:-translate-y-[100px] z-10 text-center">
                 <p class="text-[18px] min-[820px]:text-[20px] lg:text-[22px] font-normal tracking-[0.02em] text-white mb-6 reveal-up hero-reveal" style="transition-delay: 200ms;">Hello! I am Vincent.</p>
                 <h1 class="text-[48px] min-[820px]:text-[68px] lg:text-[87px] font-light tracking-[0.02em] text-center leading-tight min-[820px]:leading-tight lg:leading-[100px] text-white reveal-up hero-reveal max-w-[320px] min-[820px]:max-w-none" style="transition-delay: 800ms;">
@@ -319,7 +317,6 @@
             <div class="pt-[32px] pb-16 grid grid-cols-4 min-[820px]:grid-cols-6 gap-[10px] min-[820px]:gap-[20px] lg:gap-[30px] xl:gap-[40px] items-start">
                 <div class="col-span-4 min-[820px]:col-span-3 text-white text-center min-[820px]:text-left">
                     <div class="text-[18px] min-[820px]:text-[28px] lg:text-[30px] font-normal tracking-[0px]">
-                        <!-- iPad (820px+): 圓點對齊文字頭部 -->
                         <div class="flex flex-row items-start justify-center min-[820px]:justify-start space-x-[10px] reveal-up min-[820px]:mb-4 lg:mb-0">
                             <div class="w-[5px] h-[5px] bg-white rounded-full shrink-0 mt-[11px] min-[820px]:mt-[11px] lg:mt-[35px]"></div>
                             <p class="leading-relaxed min-[820px]:leading-[1.2] lg:leading-[76px]">15+ years of experience</p>
@@ -329,7 +326,7 @@
                             <p class="leading-relaxed min-[820px]:leading-[1.2] lg:leading-[76px]">Awards winner with 10,000+ coffees</p>
                         </div>
                     </div>
-                    <div class="flex flex-wrap justify-center min-[820px]:justify-start gap-4 mt-8 md:mt-8 lg:mt-[10px]">
+                    <div class="flex flex-wrap justify-center min-[820px]:justify-start gap-4 mt-8 min-[820px]:mt-8 lg:mt-[10px]">
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 200ms;">TypeScript</span>
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 250ms;">Node.js</span>
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 300ms;">Python</span>
@@ -405,15 +402,15 @@
     <!-- 背景變暗 Backdrop -->
     <div id="modal-backdrop" class="fixed inset-0 z-[90000] bg-black/80 opacity-0 pointer-events-none transition-opacity duration-800 hidden cursor-default"></div>
 
-    <!-- Popup Modal：1350px 以下為上下 display (flex-col)，以上為左右 (min-[1351px]:flex-row) -->
+    <!-- Popup Modal：1350px 以下為上下佈局，以上為左右佈局 -->
     <div id="project-modal" class="fixed inset-x-0 bottom-0 top-[81px] z-[99999] bg-[#1E1E1E] flex flex-col min-[1351px]:flex-row w-full translate-y-full transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-y-auto min-[1351px]:overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         
-        <!-- 文字資訊容器：小於 1350px 時在頂部 (order-1) -->
-        <div class="w-full min-[1351px]:w-1/3 h-auto min-[1351px]:h-full bg-[#1E1E1E] p-8 md:p-12 lg:p-20 flex flex-col relative border-b min-[1351px]:border-b-0 min-[1351px]:border-l border-white/10 shrink-0 text-center min-[1351px]:text-left items-center min-[1351px]:items-start order-1 min-[1351px]:order-2">
+        <!-- 文字資訊容器：上下排列時移除分割線 (移除 border-b) -->
+        <div class="w-full min-[1351px]:w-1/3 h-auto min-[1351px]:h-full bg-[#1E1E1E] p-8 md:p-12 lg:p-20 flex flex-col relative border-none min-[1351px]:border-l border-white/10 shrink-0 text-center min-[1351px]:text-left items-center min-[1351px]:items-start order-1 min-[1351px]:order-2">
             <div class="absolute top-8 right-8 md:top-12 md:right-12">
-                <!-- Close Button: < 1000px 為 47x47px，>= 1000px 為 75x75px -->
+                <!-- Close Button：Mobile / Tablet 鎖定 47x47px -->
                 <button id="modal-close-btn" class="w-[47px] h-[47px] min-[1000px]:w-[75px] min-[1000px]:h-[75px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-300 cursor-pointer z-10">
-                    <!-- X Icon: < 1000px 為 9x9px，>= 1000px 為 14x14px -->
+                    <!-- X Icon：Mobile / Tablet 鎖定 9x9px -->
                     <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[9px] h-[9px] min-[1000px]:w-[14px] min-[1000px]:h-[14px]">
                         <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -426,7 +423,7 @@
             </div>
         </div>
 
-        <!-- 圖片容器：小於 1350px 時在下方 (order-2) -->
+        <!-- 圖片容器 -->
         <div class="w-full min-[1351px]:w-2/3 h-auto min-[1351px]:h-full min-[1351px]:overflow-y-auto p-6 md:p-12 lg:p-20 hide-scrollbar cursor-none order-2 min-[1351px]:order-1" id="modal-images-container">
         </div>
 
