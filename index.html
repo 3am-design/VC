@@ -68,7 +68,8 @@
             color: #fff;
             text-align: center;
         }
-        @media (min-width: 820px) { #typing-text { font-size: 85px; } }
+        /* 820px (iPad): Hello 動畫大字縮細 20% (85px -> 68px) */
+        @media (min-width: 820px) { #typing-text { font-size: 68px; } }
         @media (min-width: 1024px) { #typing-text { font-size: 87px; } }
         
         .cursor-blink::after {
@@ -389,7 +390,7 @@
                     </h2>
                 </div>
                 <!-- 820px (min-[820px]): Email 與 Phone 齊頂對齊 (items-start) -->
-                <div class="col-span-4 min-[820px]:col-span-3 flex flex-col items-center min-[820px]:items-start justify-start mt-12 min-[820px]:mt-0 lg:mt-0 text-center min-[820px]:text-left">
+                <div class="col-span-4 min-[820px]:col-span-3 flex flex-col items-center min-[820px]:items-start justify-start mt-12 md:mt-12 lg:mt-0 text-center min-[820px]:text-left">
                     <a href="mailto:vcii@live.hk" class="text-[22px] min-[820px]:text-[35px] lg:text-[37px] font-medium leading-tight min-[820px]:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 100ms;">vcii@live.hk</a>
                     <a href="tel:+85298408445" class="mt-[28px] min-[820px]:mt-[36px] text-[22px] min-[820px]:text-[35px] lg:text-[37px] font-medium leading-tight min-[820px]:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 200ms;">+852 9840 8445</a>
                 </div>
