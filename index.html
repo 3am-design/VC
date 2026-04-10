@@ -25,8 +25,8 @@
             cursor: none !important;
         }
 
-        /* 移動端重設：隱藏自定義游標並恢復預設 */
-        @media (max-width: 767px) {
+        /* 調整 Mobile 範圍：包含 768px，直到 820px 前都算 Mobile */
+        @media (max-width: 819px) {
             #custom-cursor {
                 display: none !important;
             }
@@ -68,7 +68,7 @@
             color: #fff;
             text-align: center;
         }
-        @media (min-width: 768px) { #typing-text { font-size: 85px; } }
+        @media (min-width: 820px) { #typing-text { font-size: 85px; } }
         @media (min-width: 1024px) { #typing-text { font-size: 87px; } }
         
         .cursor-blink::after {
@@ -168,13 +168,13 @@
         }
         #design-grid.active { opacity: 1; }
         .grid-col-guide { background-color: rgba(0, 128, 128, 0.1); height: 100%; border-left: 1px solid rgba(0, 255, 255, 0.05); border-right: 1px solid rgba(0, 255, 255, 0.05); }
-        @media (min-width: 768px) { #design-grid { padding: 0 50px; grid-template-columns: repeat(6, 1fr); column-gap: 20px; } }
+        @media (min-width: 820px) { #design-grid { padding: 0 50px; grid-template-columns: repeat(6, 1fr); column-gap: 20px; } }
         @media (min-width: 1024px) { #design-grid { padding: 0 75px; column-gap: 30px; } }
         @media (min-width: 1280px) { #design-grid { padding: 0 101px; column-gap: 40px; } }
 
         /* 統一 Container */
         .custom-container { max-width: 1920px; margin: 0 auto; padding: 0 26px; width: 100%; }
-        @media (min-width: 768px) { .custom-container { padding: 0 50px; } }
+        @media (min-width: 820px) { .custom-container { padding: 0 50px; } }
         @media (min-width: 1024px) { .custom-container { padding: 0 75px; } }
         @media (min-width: 1280px) { .custom-container { padding: 0 101px; } }
     </style>
@@ -195,7 +195,7 @@
         </div>
     </div>
 
-    <!-- 自定義游標 -->
+    <!-- 自定義游標 (820px 以下隱藏) -->
     <div id="custom-cursor">
         <span class="cursor-text absolute">DISCOVER</span>
         <svg class="cursor-scroll-icon absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" width="6" height="37" viewBox="0 0 6 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -219,8 +219,8 @@
 
     <!-- Sticky 導航欄 -->
     <nav class="fixed top-[33px] w-full z-50 mix-blend-difference flex items-center justify-center pointer-events-none">
-        <div id="nav-menu" class="flex justify-center items-center text-[13px] md:text-[13px] lg:text-[15px] font-bold tracking-[0.1em] uppercase text-white transition-opacity duration-500 pointer-events-auto">
-            <div class="flex space-x-[34px] md:space-x-[34px] lg:space-x-[68px] reveal-up hero-reveal" style="transition-delay: 2000ms;">
+        <div id="nav-menu" class="flex justify-center items-center text-[13px] min-[820px]:text-[13px] lg:text-[15px] font-bold tracking-[0.1em] uppercase text-white transition-opacity duration-500 pointer-events-auto">
+            <div class="flex space-x-[34px] min-[820px]:space-x-[34px] lg:space-x-[68px] reveal-up hero-reveal" style="transition-delay: 2000ms;">
                 <a href="#about" class="relative group transition duration-300 cursor-pointer flex flex-col items-center">
                     <span class="leading-none">About</span>
                     <div class="absolute -bottom-4 w-1.5 h-1.5 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -239,26 +239,26 @@
 
     <!-- 頁面內容區塊 -->
     <main>
-        <!-- Hero Section (使用 svh 以修復移動端高度問題) -->
-        <section id="hero" class="relative h-[100svh] min-h-[600px] flex flex-col items-center justify-center pt-10 md:pt-20 overflow-hidden">
-            <div class="flex flex-col items-center -translate-y-[100px] md:-translate-y-[100px] z-10 text-center">
-                <p class="text-[18px] md:text-[20px] lg:text-[22px] font-normal tracking-[0.02em] text-white mb-6 reveal-up hero-reveal" style="transition-delay: 200ms;">Hello! I am Vincent.</p>
-                <h1 class="text-[48px] md:text-[85px] lg:text-[87px] font-light tracking-[0.02em] text-center leading-tight md:leading-tight lg:leading-[100px] text-white reveal-up hero-reveal max-w-[320px] md:max-w-none" style="transition-delay: 800ms;">
-                    Backend Architect & <br class="hidden md:block"> Systems Developer
+        <!-- Hero Section -->
+        <section id="hero" class="relative h-[100svh] min-h-[600px] flex flex-col items-center justify-center pt-10 min-[820px]:pt-20 overflow-hidden">
+            <!-- Backend 標題：820px 縮細 20% (由 85px -> 68px) -->
+            <div class="flex flex-col items-center -translate-y-[80px] min-[820px]:-translate-y-[100px] z-10 text-center">
+                <p class="text-[18px] min-[820px]:text-[20px] lg:text-[22px] font-normal tracking-[0.02em] text-white mb-6 reveal-up hero-reveal" style="transition-delay: 200ms;">Hello! I am Vincent.</p>
+                <h1 class="text-[48px] min-[820px]:text-[68px] lg:text-[87px] font-light tracking-[0.02em] text-center leading-tight min-[820px]:leading-tight lg:leading-[100px] text-white reveal-up hero-reveal max-w-[320px] min-[820px]:max-w-none" style="transition-delay: 800ms;">
+                    Backend Architect & <br class="hidden min-[820px]:block"> Systems Developer
                 </h1>
             </div>
             
-            <!-- Engineering 文字位置微調 -->
-            <div class="absolute bottom-[120px] md:bottom-[150px] lg:bottom-[80px] inset-x-0 flex justify-center px-4 z-10 reveal-up hero-reveal" style="transition-delay: 1400ms;">
+            <div class="absolute bottom-[100px] min-[820px]:bottom-[150px] lg:bottom-[80px] inset-x-0 flex justify-center px-4 z-10 reveal-up hero-reveal" style="transition-delay: 1400ms;">
                 <div class="custom-container flex justify-center">
-                    <p class="text-[14px] md:text-[20px] lg:text-[22px] font-normal tracking-[0.02em] leading-relaxed md:leading-relaxed lg:leading-[35px] text-white text-center max-w-2xl">
-                        Engineering robust logic and scalable foundations for <br class="hidden md:block"> complex digital ecosystems.
+                    <p class="text-[14px] min-[820px]:text-[20px] lg:text-[22px] font-normal tracking-[0.02em] leading-relaxed min-[820px]:leading-relaxed lg:leading-[35px] text-white text-center max-w-2xl">
+                        Engineering robust logic and scalable foundations for <br class="hidden min-[820px]:block"> complex digital ecosystems.
                     </p>
                 </div>
             </div>
 
-            <!-- Scroll Icon: 固定距離底部 30px -->
-            <div class="absolute bottom-[30px] md:bottom-8 lg:bottom-12 inset-x-0 flex justify-center pointer-events-none z-10">
+            <!-- Scroll Icon -->
+            <div class="absolute bottom-[30px] min-[820px]:bottom-8 lg:bottom-12 inset-x-0 flex justify-center pointer-events-none z-10">
                 <div class="custom-container flex justify-center lg:justify-end">
                     <div class="reveal-up hero-reveal pointer-events-auto" style="transition-delay: 2600ms;">
                         <div class="w-[15px] h-[44px] border border-[#3D3D3D] rounded-full flex justify-center pt-[6px]">
@@ -270,19 +270,19 @@
         </section>
 
         <!-- About Section -->
-        <section id="about" class="custom-container mt-8 md:mt-8 lg:mt-20">
+        <section id="about" class="custom-container mt-8 min-[820px]:mt-8 lg:mt-20">
             <div class="reveal-line mb-8"></div>
-            <div class="py-20 md:py-32 grid grid-cols-4 md:grid-cols-6 gap-[10px] md:gap-[20px] lg:gap-[30px] xl:gap-[40px]">
-                <div class="col-span-4 md:col-span-3 text-center md:text-left">
-                    <h2 class="text-[34px] md:text-[53px] lg:text-[55px] font-normal leading-tight md:leading-tight lg:leading-[70px] tracking-[0px] text-white md:pr-10 mb-8 md:mb-0 reveal-up">
+            <div class="py-20 min-[820px]:py-32 grid grid-cols-4 min-[820px]:grid-cols-6 gap-[10px] min-[820px]:gap-[20px] lg:gap-[30px] xl:gap-[40px]">
+                <div class="col-span-4 min-[820px]:col-span-3 text-center min-[820px]:text-left">
+                    <h2 class="text-[34px] min-[820px]:text-[53px] lg:text-[55px] font-normal leading-tight min-[820px]:leading-tight lg:leading-[70px] tracking-[0px] text-white min-[820px]:md:pr-10 mb-8 min-[820px]:mb-0 reveal-up">
                         Building the invisible <br>power that drives <br>seamless experiences.
                     </h2>
                 </div>
-                <div class="col-span-4 md:col-span-3 flex flex-col justify-center space-y-6 text-center md:text-left">
-                    <p class="text-[14px] md:text-[18px] lg:text-[20px] font-normal leading-relaxed md:leading-relaxed lg:leading-[30px] tracking-[0px] text-white reveal-up" style="transition-delay: 100ms;">
+                <div class="col-span-4 min-[820px]:col-span-3 flex flex-col justify-center space-y-6 text-center min-[820px]:text-left">
+                    <p class="text-[14px] min-[820px]:text-[18px] lg:text-[20px] font-normal leading-relaxed min-[820px]:leading-relaxed lg:leading-[30px] tracking-[0px] text-white reveal-up" style="transition-delay: 100ms;">
                         I specialize in the "under the hood" of digital products — where logic meets performance. With a focus on backend architecture, system integration, and database optimization, I transform complex business requirements into stable, high-performance technical solutions.
                     </p>
-                    <p class="text-[14px] md:text-[18px] lg:text-[20px] font-normal leading-relaxed md:leading-relaxed lg:leading-[30px] tracking-[0px] text-white reveal-up" style="transition-delay: 200ms;">
+                    <p class="text-[14px] min-[820px]:text-[18px] lg:text-[20px] font-normal leading-relaxed min-[820px]:leading-relaxed lg:leading-[30px] tracking-[0px] text-white reveal-up" style="transition-delay: 200ms;">
                         I believe that the best systems are the ones you never have to think about because they just work. Efficiently. Securely. Scalably.
                     </p>
                 </div>
@@ -290,67 +290,68 @@
         </section>
 
         <!-- Marquee Section -->
-        <section class="py-10 md:py-20 overflow-hidden -mt-[20px]">
+        <section class="py-10 min-[820px]:py-20 overflow-hidden -mt-[20px]">
             <div class="marquee-container">
-                <div class="marquee-content text-[48px] md:text-[85px] lg:text-[87px] font-bold leading-tight md:leading-tight lg:leading-[230px] tracking-[0px] text-white cursor-default gap-8 md:gap-12 pr-12">
+                <div class="marquee-content text-[48px] min-[820px]:text-[85px] lg:text-[87px] font-bold leading-tight min-[820px]:leading-tight lg:leading-[230px] tracking-[0px] text-white cursor-default gap-8 md:gap-12 pr-12">
                     <span>System Architecture</span>
-                    <div class="w-[12px] h-[12px] md:w-[20px] md:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
                     <span>API Development</span>
-                    <div class="w-[12px] h-[12px] md:w-[20px] md:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
                     <span>Database Management</span>
-                    <div class="w-[12px] h-[12px] md:w-[20px] md:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
                     <span>Performance Optimization</span>
-                    <div class="w-[12px] h-[12px] md:w-[20px] md:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
                     <span>System Architecture</span>
-                    <div class="w-[12px] h-[12px] md:w-[20px] md:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
                     <span>API Development</span>
-                    <div class="w-[12px] h-[12px] md:w-[20px] md:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
                     <span>Database Management</span>
-                    <div class="w-[12px] h-[12px] md:w-[20px] md:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
                     <span>Performance Optimization</span>
-                    <div class="w-[12px] h-[12px] md:w-[20px] md:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
                 </div>
             </div>
         </section>
 
         <!-- Stats Section -->
         <section id="stats" class="custom-container mb-[60px]">
-            <div class="pt-[32px] pb-16 grid grid-cols-4 md:grid-cols-6 gap-[10px] md:gap-[20px] lg:gap-[30px] xl:gap-[40px] items-start">
-                <div class="col-span-4 md:col-span-3 text-white text-center md:text-left">
-                    <div class="text-[18px] md:text-[28px] lg:text-[30px] font-normal tracking-[0px]">
-                        <div class="flex flex-row items-start justify-center md:justify-start space-x-[10px] reveal-up md:mb-4 lg:mb-0">
-                            <div class="w-[5px] h-[5px] bg-white rounded-full shrink-0 mt-[11px] md:mt-[16px] lg:mt-[35px]"></div>
-                            <p class="leading-relaxed md:leading-relaxed lg:leading-[76px]">15+ years of experience</p>
+            <div class="pt-[32px] pb-16 grid grid-cols-4 min-[820px]:grid-cols-6 gap-[10px] min-[820px]:gap-[20px] lg:gap-[30px] xl:gap-[40px] items-start">
+                <div class="col-span-4 min-[820px]:col-span-3 text-white text-center min-[820px]:text-left">
+                    <div class="text-[18px] min-[820px]:text-[28px] lg:text-[30px] font-normal tracking-[0px]">
+                        <!-- iPad (820px+): 圓點對齊文字頭部 -->
+                        <div class="flex flex-row items-start justify-center min-[820px]:justify-start space-x-[10px] reveal-up min-[820px]:mb-4 lg:mb-0">
+                            <div class="w-[5px] h-[5px] bg-white rounded-full shrink-0 mt-[11px] min-[820px]:mt-[11px] lg:mt-[35px]"></div>
+                            <p class="leading-relaxed min-[820px]:leading-[1.2] lg:leading-[76px]">15+ years of experience</p>
                         </div>
-                        <div class="flex flex-row items-start justify-center md:justify-start space-x-[10px] md:-mt-0 lg:-mt-[20px] reveal-up" style="transition-delay: 100ms;">
-                            <div class="w-[5px] h-[5px] bg-white rounded-full shrink-0 mt-[11px] md:mt-[16px] lg:mt-[35px]"></div>
-                            <p class="leading-relaxed md:leading-relaxed lg:leading-[76px]">Awards winner with 10,000+ coffees</p>
+                        <div class="flex flex-row items-start justify-center min-[820px]:justify-start space-x-[10px] min-[820px]:-mt-0 lg:-mt-[20px] reveal-up" style="transition-delay: 100ms;">
+                            <div class="w-[5px] h-[5px] bg-white rounded-full shrink-0 mt-[11px] min-[820px]:mt-[11px] lg:mt-[35px]"></div>
+                            <p class="leading-relaxed min-[820px]:leading-[1.2] lg:leading-[76px]">Awards winner with 10,000+ coffees</p>
                         </div>
                     </div>
-                    <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-8 md:mt-8 lg:mt-[10px]">
-                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] md:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 200ms;">TypeScript</span>
-                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] md:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 250ms;">Node.js</span>
-                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] md:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 300ms;">Python</span>
-                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] md:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 350ms;">Java</span>
-                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] md:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 400ms;">FastAPI</span>
-                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] md:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 450ms;">SQL</span>
+                    <div class="flex flex-wrap justify-center min-[820px]:justify-start gap-4 mt-8 min-[820px]:mt-8 lg:mt-[10px]">
+                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 200ms;">TypeScript</span>
+                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 250ms;">Node.js</span>
+                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 300ms;">Python</span>
+                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 350ms;">Java</span>
+                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 400ms;">FastAPI</span>
+                        <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 450ms;">SQL</span>
                     </div>
                 </div>
                 <!-- Award Logos -->
-                <div class="col-span-4 md:col-start-4 md:col-span-3 grid grid-cols-3 gap-y-12 gap-x-4 md:flex md:flex-wrap md:gap-12 items-center justify-items-center md:justify-start mt-4 md:mt-4 lg:mt-[20px]">
-                    <img src="./assets/home/HKDA.svg" alt="HKDA" class="w-[33px] md:w-[33px] lg:w-[41px] object-contain brightness-0 invert reveal-up" style="transition-delay: 100ms;">
-                    <img src="./assets/home/Awwwards.svg" alt="Awwwards" class="w-[96px] md:w-[96px] lg:w-[120px] object-contain brightness-0 invert reveal-up" style="transition-delay: 150ms;">
-                    <img src="./assets/home/W3.svg" alt="W3" class="w-[29px] md:w-[29px] lg:w-[36px] object-contain brightness-0 invert reveal-up" style="transition-delay: 200ms;">
-                    <img src="./assets/home/Horizon.svg" alt="Horizon" class="w-[70px] md:w-[70px] lg:w-[88px] object-contain brightness-0 invert reveal-up" style="transition-delay: 250ms;">
-                    <img src="./assets/home/WebAward.svg" alt="WebAward" class="w-[33px] md:w-[33px] lg:w-[41px] object-contain brightness-0 invert reveal-up" style="transition-delay: 300ms;">
-                    <img src="./assets/home/ComAward.svg" alt="ComAward" class="w-[100px] md:w-[100px] lg:w-[124px] object-contain brightness-0 invert reveal-up" style="transition-delay: 350ms;">
+                <div class="col-span-4 min-[820px]:col-start-4 min-[820px]:col-span-3 grid grid-cols-3 gap-y-12 gap-x-4 min-[820px]:flex min-[820px]:flex-wrap min-[820px]:gap-12 items-center justify-items-center min-[820px]:justify-start mt-4 min-[820px]:mt-4 lg:mt-[20px]">
+                    <img src="./assets/home/HKDA.svg" alt="HKDA" class="w-[33px] min-[820px]:w-[33px] lg:w-[41px] object-contain brightness-0 invert reveal-up" style="transition-delay: 100ms;">
+                    <img src="./assets/home/Awwwards.svg" alt="Awwwards" class="w-[96px] min-[820px]:w-[96px] lg:w-[120px] object-contain brightness-0 invert reveal-up" style="transition-delay: 150ms;">
+                    <img src="./assets/home/W3.svg" alt="W3" class="w-[29px] min-[820px]:w-[29px] lg:text-[36px] object-contain brightness-0 invert reveal-up" style="transition-delay: 200ms;">
+                    <img src="./assets/home/Horizon.svg" alt="Horizon" class="w-[70px] min-[820px]:w-[70px] lg:w-[88px] object-contain brightness-0 invert reveal-up" style="transition-delay: 250ms;">
+                    <img src="./assets/home/WebAward.svg" alt="WebAward" class="w-[33px] min-[820px]:w-[33px] lg:w-[41px] object-contain brightness-0 invert reveal-up" style="transition-delay: 300ms;">
+                    <img src="./assets/home/ComAward.svg" alt="ComAward" class="w-[100px] min-[820px]:w-[100px] lg:w-[124px] object-contain brightness-0 invert reveal-up" style="transition-delay: 350ms;">
                 </div>
             </div>
         </section>
 
         <!-- Works Section -->
-        <section id="works" class="custom-container pb-[90px] md:pb-[90px] lg:pb-32">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-[10px] md:gap-[20px] lg:gap-[30px] xl:gap-[40px]">
+        <section id="works" class="custom-container pb-[90px] min-[820px]:pb-[90px] lg:pb-32">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-[10px] min-[820px]:gap-[20px] lg:gap-[30px] xl:gap-[40px]">
                 <div class="portfolio-item col-span-1 lg:col-span-4 aspect-[4/3] lg:aspect-[1132/695] w-full bg-[#2a2a2a] cursor-pointer overflow-hidden group reveal-image" data-id="01">
                     <img src="./assets/works/01/01_image_01.webp" alt="Work 01" class="w-full h-full object-cover opacity-100 transition duration-500 group-hover:scale-[1.02]">
                 </div>
@@ -374,25 +375,27 @@
                 </div>
             </div>
             <div class="mt-8 text-center reveal-up">
-                <a href="#" class="text-[18px] md:text-[18px] lg:text-[20px] font-bold leading-[76px] tracking-[0px] text-white transition duration-300 cursor-pointer border-b border-white">more +</a>
+                <a href="#" class="text-[18px] min-[820px]:text-[18px] lg:text-[20px] font-bold leading-[76px] tracking-[0px] text-white transition duration-300 cursor-pointer border-b border-white">more +</a>
             </div>
         </section>
 
         <!-- Talk Section -->
         <section id="talk" class="custom-container relative">
             <div class="reveal-line mb-8"></div>
-            <div class="pt-20 grid grid-cols-4 md:grid-cols-6 gap-[10px] md:gap-[20px] lg:gap-[30px] xl:gap-[40px]">
-                <div class="col-span-4 md:col-span-3 text-center md:text-left">
-                    <h2 class="text-[34px] md:text-[53px] lg:text-[55px] font-normal leading-tight md:leading-tight lg:leading-[70px] tracking-[0px] text-white reveal-up">
+            <div class="pt-20 grid grid-cols-4 min-[820px]:grid-cols-6 gap-[10px] min-[820px]:gap-[20px] lg:gap-[30px] xl:gap-[40px]">
+                <div class="col-span-4 min-[820px]:col-span-3 text-center min-[820px]:text-left">
+                    <h2 class="text-[34px] min-[820px]:text-[53px] lg:text-[55px] font-normal leading-tight min-[820px]:leading-tight lg:leading-[70px] tracking-[0px] text-white reveal-up">
                         Ready to build <br> something solid? <br> Let's talk.
                     </h2>
                 </div>
-                <div class="col-span-4 md:col-span-3 flex flex-col items-center md:items-start justify-start mt-12 md:mt-12 lg:mt-0 text-center md:text-left">
-                    <a href="mailto:vcii@live.hk" class="text-[22px] md:text-[35px] lg:text-[37px] font-medium leading-tight md:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 100ms;">vcii@live.hk</a>
-                    <a href="tel:+85298408445" class="mt-[28px] md:mt-[36px] text-[22px] md:text-[35px] lg:text-[37px] font-medium leading-tight md:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 200ms;">+852 9840 8445</a>
+                <!-- 820px (min-[820px]): Email 與 Phone 齊頂對齊 (items-start) -->
+                <div class="col-span-4 min-[820px]:col-span-3 flex flex-col items-center min-[820px]:items-start justify-start mt-12 min-[820px]:mt-0 lg:mt-0 text-center min-[820px]:text-left">
+                    <a href="mailto:vcii@live.hk" class="text-[22px] min-[820px]:text-[35px] lg:text-[37px] font-medium leading-tight min-[820px]:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 100ms;">vcii@live.hk</a>
+                    <a href="tel:+85298408445" class="mt-[28px] min-[820px]:mt-[36px] text-[22px] min-[820px]:text-[35px] lg:text-[37px] font-medium leading-tight min-[820px]:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 200ms;">+852 9840 8445</a>
                 </div>
             </div>
-            <div class="mt-[110px] pb-[80px] text-[10px] md:text-[12px] lg:text-[14px] text-white text-center md:text-left tracking-wide reveal-up">
+            <!-- Copyright 宣告 -->
+            <div class="mt-[110px] pb-[80px] text-[10px] min-[820px]:text-[12px] lg:text-[14px] text-white text-center min-[820px]:text-left tracking-wide reveal-up">
                 Copyright &copy; 2026 VCII. All rights reserved.
             </div>
         </section>
@@ -404,23 +407,23 @@
     <!-- Popup Modal -->
     <div id="project-modal" class="fixed inset-x-0 bottom-0 top-[81px] z-[99999] bg-[#1E1E1E] flex flex-col lg:flex-row w-full translate-y-full transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-y-auto lg:overflow-hidden shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         
-        <!-- 文字資訊容器 -->
-        <div class="w-full lg:w-1/3 h-auto lg:h-full bg-[#1E1E1E] p-8 md:p-12 lg:p-20 flex flex-col relative border-b lg:border-b-0 lg:border-l border-white/10 shrink-0 text-center md:text-center lg:text-left items-center lg:items-start order-1 lg:order-2">
+        <!-- 文字資訊容器 (iPad 820px 跟隨 Mobile 為 Order 1) -->
+        <div class="w-full lg:w-1/3 h-auto lg:h-full bg-[#1E1E1E] p-8 md:p-12 lg:p-20 flex flex-col relative border-b lg:border-b-0 lg:border-l border-white/10 shrink-0 text-center min-[820px]:text-center lg:text-left items-center lg:items-start order-1 lg:order-2">
             <div class="absolute top-8 right-8 md:top-12 md:right-12">
-                <button id="modal-close-btn" class="w-[38px] h-[38px] md:w-[38px] lg:w-[75px] lg:h-[75px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-300 cursor-pointer z-10">
+                <button id="modal-close-btn" class="w-[38px] h-[38px] min-[820px]:w-[38px] lg:w-[75px] lg:h-[75px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white hover:text-black transition duration-300 cursor-pointer z-10">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 md:w-3.5 md:h-3.5">
                         <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
             </div>
             <div class="mt-16 md:mt-24 lg:pr-4">
-                <p id="modal-category" class="text-[12px] md:text-[12px] lg:text-[14px] text-gray-400 mb-4 tracking-wide"></p>
-                <h2 id="modal-title" class="text-[30px] md:text-[38px] lg:text-[40px] font-bold text-white leading-tight mb-8"></h2>
-                <p id="modal-desc" class="text-[12px] md:text-[14px] lg:text-[16px] text-gray-300 leading-relaxed font-light"></p>
+                <p id="modal-category" class="text-[12px] min-[820px]:text-[12px] lg:text-[14px] text-gray-400 mb-4 tracking-wide"></p>
+                <h2 id="modal-title" class="text-[30px] min-[820px]:text-[38px] lg:text-[40px] font-bold text-white leading-tight mb-8"></h2>
+                <p id="modal-desc" class="text-[12px] min-[820px]:text-[14px] lg:text-[16px] text-gray-300 leading-relaxed font-light"></p>
             </div>
         </div>
 
-        <!-- 圖片容器 -->
+        <!-- 圖片容器 (Order 2) -->
         <div class="w-full lg:w-2/3 h-auto lg:h-full lg:overflow-y-auto p-6 md:p-12 lg:p-20 hide-scrollbar cursor-none order-2 lg:order-1" id="modal-images-container">
         </div>
 
@@ -489,9 +492,7 @@
                         document.body.classList.remove('lock-scroll');
                         window.scrollTo(0, 0);
                         
-                        // 啟動 Hero 首屏元素
                         document.querySelectorAll('.hero-reveal').forEach(el => el.classList.add('active'));
-                        // 觀察其餘元素
                         document.querySelectorAll('.reveal-up:not(.hero-reveal), .reveal-fade, .reveal-line, .reveal-image').forEach(el => revealObserver.observe(el));
                     }, 1000);
                 }, 800);
