@@ -217,8 +217,8 @@
         <div class="grid-col-guide"></div><div class="grid-col-guide"></div><div class="grid-col-guide"></div>
     </div>
 
-    <!-- 中間的 3D 賽博球體 (全螢幕容器)。調整基礎透明度至最高 (1.0) 以明顯化 -->
-    <div id="bg-video-wrapper" class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-100 transition-opacity duration-700 flex items-center justify-center mix-blend-screen overflow-hidden">
+    <!-- 中間的 3D 賽博球體 (全螢幕容器)。調整基礎透明度至 0.95 以明顯化 -->
+    <div id="bg-video-wrapper" class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-95 transition-opacity duration-700 flex items-center justify-center mix-blend-screen overflow-hidden">
         <!-- Canvas 將由 Three.js 動態注入於此 -->
         <!-- Facebook Blue 氛圍強化：調整顏色飽和度 -->
         <div id="canvas-depth-layer" style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(0, 40, 110, 0.45) 0%, rgba(0,0,0,1) 80%);"></div>
@@ -300,21 +300,21 @@
             <div class="marquee-container">
                 <div class="marquee-content text-[48px] min-[820px]:text-[85px] lg:text-[87px] font-bold leading-tight min-[820px]:leading-tight lg:leading-[230px] tracking-[0px] text-white cursor-default gap-8 md:gap-12 pr-12">
                     <span>System Architecture</span>
-                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-white/10 rounded-full shrink-0"></div>
                     <span>API Development</span>
-                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-white/10 rounded-full shrink-0"></div>
                     <span>Database Management</span>
-                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-white/10 rounded-full shrink-0"></div>
                     <span>Performance Optimization</span>
-                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-white/10 rounded-full shrink-0"></div>
                     <span>System Architecture</span>
-                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-white/10 rounded-full shrink-0"></div>
                     <span>API Development</span>
-                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-white/10 rounded-full shrink-0"></div>
                     <span>Database Management</span>
-                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-white/10 rounded-full shrink-0"></div>
                     <span>Performance Optimization</span>
-                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-[#999999] rounded-full shrink-0"></div>
+                    <div class="w-[12px] h-[12px] min-[820px]:w-[20px] min-[820px]:h-[20px] bg-white/10 rounded-full shrink-0"></div>
                 </div>
             </div>
         </section>
@@ -342,7 +342,7 @@
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 450ms;">SQL</span>
                     </div>
                 </div>
-                {/* Award Logos */}
+                <!-- Award Logos -->
                 <div class="col-span-4 min-[820px]:col-start-4 min-[820px]:col-span-3 grid grid-cols-3 gap-y-12 gap-x-4 min-[820px]:flex min-[820px]:flex-wrap min-[820px]:gap-12 items-center justify-items-center min-[820px]:justify-start mt-4 min-[820px]:mt-4 lg:mt-[20px]">
                     <img src="./assets/home/HKDA.svg" alt="HKDA" class="w-[33px] min-[820px]:w-[33px] lg:w-[41px] object-contain brightness-0 invert reveal-up" style="transition-delay: 100ms;">
                     <img src="./assets/home/Awwwards.svg" alt="Awwwards" class="w-[96px] min-[820px]:w-[96px] lg:w-[120px] object-contain brightness-0 invert reveal-up" style="transition-delay: 150ms;">
@@ -413,24 +413,42 @@
         
         <!-- 文字資訊容器 -->
         <div class="w-full min-[1351px]:w-1/3 h-auto min-[1351px]:h-full bg-[#0A0A0A] p-8 md:p-12 lg:p-20 flex flex-col relative border-none min-[1351px]:border-l border-white/10 shrink-0 text-center min-[1351px]:text-left items-center min-[1351px]:items-start order-1 min-[1351px]:order-2">
+            
+            <!-- Close Button -->
             <div class="absolute top-8 right-8 md:top-12 md:right-12 min-[1351px]:relative min-[1351px]:top-0 min-[1351px]:right-0 min-[1351px]:w-full min-[1351px]:flex min-[1351px]:justify-end">
                 <button id="modal-close-btn" class="
                     /* Mobile/Vertical: Pill button at bottom */
-                    fixed bottom-[20px] left-1/2 -translate-x-1/2 w-auto h-auto px-12 py-4 bg-white text-black rounded-full font-bold text-[14px] tracking-widest uppercase
-                    /* Desktop/Horizontal: Circular icon button at top-right */
-                    min-[1351px]:absolute min-[1351px]:top-0 min-[1351px]:right-0 min-[1351px]:bottom-auto min-[1351px]:left-auto min-[1351px]:translate-x-0
-                    min-[1351px]:w-[75px] min-[1351px]:h-[75px] min-[1351px]:bg-transparent min-[1351px]:text-white min-[1351px]:border min-[1351px]:border-white/30
+                    fixed bottom-[20px] left-1/2 -translate-x-1/2 w-auto h-auto px-12 py-4 bg-white text-black rounded-full font-bold text-[14px] tracking-widest uppercase flex items-center justify-center
+                    /* Desktop/Horizontal: Circular icon button resetting fixed state */
+                    min-[1351px]:static min-[1351px]:translate-x-0 min-[1351px]:w-[75px] min-[1351px]:h-[75px] min-[1351px]:p-0 min-[1351px]:bg-transparent min-[1351px]:text-white min-[1351px]:border min-[1351px]:border-white/30
                     hover:bg-white hover:text-black transition duration-300 cursor-pointer z-[100001]">
                     <span class="min-[1351px]:hidden">CLOSE</span>
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="hidden min-[1351px]:block w-[14px] h-[14px] mx-auto">
+                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="hidden min-[1351px]:block w-[14px] h-[14px]">
                         <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
             </div>
-            <div class="mt-16 md:mt-24 min-[1351px]:pr-4">
+            
+            <div class="mt-16 md:mt-24 min-[1351px]:pr-4 flex-grow">
                 <p id="modal-category" class="text-[12px] min-[820px]:text-[12px] lg:text-[14px] text-gray-400 mb-4 tracking-wide"></p>
                 <h2 id="modal-title" class="text-[30px] min-[820px]:text-[38px] lg:text-[40px] font-bold text-white leading-tight mb-8"></h2>
                 <p id="modal-desc" class="text-[12px] min-[820px]:text-[14px] lg:text-[16px] text-gray-300 leading-relaxed font-light"></p>
+            </div>
+
+            <!-- Navigation Arrows (Desktop Only) -->
+            <div class="hidden min-[1351px]:flex gap-4 w-full mt-12 pb-4">
+                <button id="modal-prev-btn" class="w-[75px] h-[75px] shrink-0 rounded-full bg-white flex items-center justify-center transition duration-300 hover:bg-gray-200 cursor-pointer pointer-events-auto">
+                    <img src="./assets/home/arrow.svg" alt="Prev" class="w-[23px] rotate-180 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <svg viewBox="0 0 24 24" fill="none" class="w-[23px] hidden" style="transform: scaleX(-1);">
+                        <path d="M4 12h16M13 5l7 7-7 7" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button id="modal-next-btn" class="w-[75px] h-[75px] shrink-0 rounded-full bg-white flex items-center justify-center transition duration-300 hover:bg-gray-200 cursor-pointer pointer-events-auto">
+                    <img src="./assets/home/arrow.svg" alt="Next" class="w-[23px] object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <svg viewBox="0 0 24 24" fill="none" class="w-[23px] hidden">
+                        <path d="M4 12h16M13 5l7 7-7 7" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
             </div>
         </div>
 
@@ -459,14 +477,21 @@
             cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate3d(-50%, -50%, 0)`;
         });
 
+        const cursorActive = () => cursor.classList.add('active');
+        const cursorInactive = () => cursor.classList.remove('active');
+        const cursorDiscover = () => cursor.classList.add('discover');
+        const cursorUndiscover = () => cursor.classList.remove('discover');
+        const cursorScroll = () => cursor.classList.add('scroll-mode');
+        const cursorUnscroll = () => cursor.classList.remove('scroll-mode');
+
         const bindHovers = () => {
             document.querySelectorAll('a, button, .cursor-pointer:not(.portfolio-item):not(#modal-backdrop)').forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('active'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+                el.addEventListener('mouseenter', cursorActive);
+                el.addEventListener('mouseleave', cursorInactive);
             });
             document.querySelectorAll('.portfolio-item').forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('discover'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('discover'));
+                el.addEventListener('mouseenter', cursorDiscover);
+                el.addEventListener('mouseleave', cursorUndiscover);
             });
         };
         bindHovers();
@@ -526,12 +551,11 @@
         const SEGMENTS = 300;     
         const RADIUS = 1.3;       
         const BASE_THICKNESS = 0.0008; 
-        const DUST_COUNT = 5000; // 粒子數量增加多 56% 以明顯化 (原本 3200)
+        const DUST_COUNT = 5000; 
         const hitSphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), RADIUS);
 
         function updateSphereScale() {
             if (!ribbons) return;
-            // 比例調整：Mobile 端的基礎縮放從 0.95 提升 30% 變為約 1.24
             const scale = window.innerWidth < 820 ? 1.24 : 1.5;
             ribbons.scale.set(scale, scale, scale);
             if (dustPoints) dustPoints.scale.setScalar(scale);
@@ -624,7 +648,6 @@
 
                         float pulse = sin(angle * 6.0 + uTime * 3.0 + ringIdx * 0.5) * 0.5 + 0.5;
                         
-                        // Hover 時線幼番少少
                         float currentThickness = ${BASE_THICKNESS.toFixed(4)} * (1.0 + pulse * 2.0) * (1.0 - mouseEffect * 0.5);
                         
                         float vDirection = (uv.y - 0.5) * 2.0;
@@ -633,7 +656,6 @@
                         float radiusScale = 1.0 + totalWave + mouseEffect * 0.12;
                         pos.xz *= radiusScale;
 
-                        // 亮度微升
                         vBrightness = 0.61 + pulse * 0.5 + totalWave * 1.5 + mouseEffect * 1.35;
                         vUv = uv;
 
@@ -702,12 +724,6 @@
             dustPoints = new THREE.Points(dustGeometry, dustMaterial);
             scene.add(dustPoints);
 
-            // 輔助碰撞球
-            const hitSphereGeo = new THREE.SphereGeometry(RADIUS, 32, 32);
-            const hitSphereMat = new THREE.MeshBasicMaterial({ visible: false });
-            const hitSphereMesh = new THREE.Mesh(hitSphereGeo, hitSphereMat);
-            scene.add(hitSphereMesh);
-
             updateSphereScale();
             window.addEventListener('mousemove', (e) => {
                 mouse2D.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -771,9 +787,7 @@
             const progress = Math.min(pageYOffset / heroHeight, 1);
             
             const isMobile = window.innerWidth < 820;
-            // 初始亮度：Mobile 為 1.0，Desktop 為 0.95
             const startOpacity = isMobile ? 1.0 : 0.95;
-            // 捲動後亮度提升：Mobile 為 0.75，Desktop 為 0.68
             const endOpacity = isMobile ? 0.75 : 0.68;
             
             const currentOpacity = startOpacity - (progress * (startOpacity - endOpacity));
@@ -792,19 +806,60 @@
             }
         });
 
+        // Data Definition
+        const commonDescPrefix = "Co-founded in the 1980s by Alice King, Alisan Fine Arts is Hong Kong’s longest-standing contemporary gallery, celebrated for its trailblazing promotion of Chinese contemporary art and New Ink art. The gallery has consistently championed artists from the Greater China region and Chinese diaspora, making an impact on cross-cultural dialogues and global appreciation of diverse artistic expressions. With locations in Hong Kong’s Central and Aberdeen districts, as well as New York, Alisan Fine Arts is committed to expanding its vision by fostering an innovative creative platform and supporting the next generation of Chinese contemporary artists worldwide.";
+
         const projectsData = {
-            '01': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp One', desc: `Co-founded in the 1980s by Alice King, Alisan Fine Arts is Hong Kong’s longest-standing contemporary gallery, celebrated for its trailblazing promotion of Chinese contemporary art and New Ink art.`, imagesCount: 3 },
-            '02': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Two', desc: `...`, imagesCount: 3 },
-            '03': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Three', desc: `...`, imagesCount: 3 },
-            '04': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Four', desc: `...`, imagesCount: 3 },
-            '05': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Five', desc: `...`, imagesCount: 3 },
-            '06': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Six', desc: `...`, imagesCount: 3 },
-            '07': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Seven', desc: `...`, imagesCount: 3 }
+            '01': { id: '01', category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp One', desc: `${commonDescPrefix} (one)`, imagesCount: 3 },
+            '02': { id: '02', category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Two', desc: `${commonDescPrefix} (two)`, imagesCount: 3 },
+            '03': { id: '03', category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Three', desc: `${commonDescPrefix} (three)`, imagesCount: 3 },
+            '04': { id: '04', category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Four', desc: `${commonDescPrefix} (four)`, imagesCount: 3 },
+            '05': { id: '05', category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Five', desc: `${commonDescPrefix} (five)`, imagesCount: 3 },
+            '06': { id: '06', category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Six', desc: `${commonDescPrefix} (six)`, imagesCount: 3 },
+            '07': { id: '07', category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Seven', desc: `${commonDescPrefix} (seven)`, imagesCount: 3 }
         };
 
+        // Modal Logic
         const modal = document.getElementById('project-modal');
         const modalBackdrop = document.getElementById('modal-backdrop');
         const navMenu = document.getElementById('nav-menu');
+        let currentProjectId = null;
+
+        const renderProject = (id) => {
+            currentProjectId = id;
+            const data = projectsData[id];
+            if (!data) return;
+
+            document.getElementById('modal-title').textContent = data.title;
+            document.getElementById('modal-category').textContent = data.category;
+            document.getElementById('modal-desc').textContent = data.desc;
+            
+            const imagesContainer = document.getElementById('modal-images-container');
+            imagesContainer.innerHTML = '';
+            for (let i = 1; i <= data.imagesCount; i++) {
+                const img = document.createElement('img');
+                img.src = `./assets/works/${id}/${id}_image_${i.toString().padStart(2, '0')}.webp`;
+                img.className = 'w-full h-auto object-cover mb-12 bg-[#050505] reveal-image';
+                img.onerror = function() { this.remove(); };
+                imagesContainer.appendChild(img);
+                setTimeout(() => img.classList.add('active'), 100 + (i * 150));
+            }
+            
+            // Scroll to top
+            imagesContainer.scrollTop = 0;
+            modal.scrollTop = 0;
+        };
+
+        const openModal = (id) => {
+            renderProject(id);
+            modalBackdrop.classList.remove('hidden', 'pointer-events-none', 'opacity-0');
+            modalBackdrop.classList.add('opacity-100');
+            modal.classList.remove('translate-y-full');
+            navMenu?.classList.add('opacity-0', 'pointer-events-none');
+            logoContainer.classList.add('pointer-events-none');
+            document.documentElement.classList.add('lock-scroll');
+            document.body.classList.add('lock-scroll');
+        };
 
         const closeModal = () => {
             modal.classList.add('translate-y-full');
@@ -812,44 +867,46 @@
             modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
             navMenu?.classList.remove('opacity-0', 'pointer-events-none');
             logoContainer.classList.remove('pointer-events-none');
+            
+            cursorInactive(); 
+            cursorUndiscover();
+            cursorUnscroll();
+
             setTimeout(() => {
                 document.documentElement.classList.remove('lock-scroll');
                 document.body.classList.remove('lock-scroll');
                 modalBackdrop.classList.add('hidden');
+                currentProjectId = null;
             }, 1000);
         };
 
+        // Navigation Arrows Logic
+        document.getElementById('modal-prev-btn').addEventListener('click', () => {
+            if (!currentProjectId) return;
+            const projectKeys = Object.keys(projectsData);
+            const currentIndex = projectKeys.indexOf(currentProjectId);
+            const prevIndex = currentIndex === 0 ? projectKeys.length - 1 : currentIndex - 1;
+            renderProject(projectKeys[prevIndex]);
+        });
+
+        document.getElementById('modal-next-btn').addEventListener('click', () => {
+            if (!currentProjectId) return;
+            const projectKeys = Object.keys(projectsData);
+            const currentIndex = projectKeys.indexOf(currentProjectId);
+            const nextIndex = currentIndex === projectKeys.length - 1 ? 0 : currentIndex + 1;
+            renderProject(projectKeys[nextIndex]);
+        });
+
+        // Hover effects for arrows
+        document.getElementById('modal-prev-btn').addEventListener('mouseenter', cursorActive);
+        document.getElementById('modal-prev-btn').addEventListener('mouseleave', cursorInactive);
+        document.getElementById('modal-next-btn').addEventListener('mouseenter', cursorActive);
+        document.getElementById('modal-next-btn').addEventListener('mouseleave', cursorInactive);
+
+        // Bind events
         document.querySelectorAll('.portfolio-item').forEach(item => {
             item.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                const data = projectsData[id];
-                if (!data) return;
-                document.getElementById('modal-title').textContent = data.title;
-                document.getElementById('modal-category').textContent = data.category;
-                document.getElementById('modal-desc').textContent = data.desc;
-                
-                const imagesContainer = document.getElementById('modal-images-container');
-                imagesContainer.innerHTML = '';
-                for (let i = 1; i <= data.imagesCount; i++) {
-                    const img = document.createElement('img');
-                    img.src = `./assets/works/${id}/${id}_image_${i.toString().padStart(2, '0')}.webp`;
-                    img.className = 'w-full h-auto object-cover mb-12 bg-[#050505] reveal-image';
-                    img.onerror = function() { this.remove(); };
-                    imagesContainer.appendChild(img);
-                    setTimeout(() => img.classList.add('active'), 100 + (i * 150));
-                }
-                
-                modalBackdrop.classList.remove('hidden', 'pointer-events-none', 'opacity-0');
-                modalBackdrop.classList.add('opacity-100');
-                modal.classList.remove('translate-y-full');
-                requestAnimationFrame(() => {
-                    modal.scrollTop = 0;
-                    modal.scrollTo(0, 0);
-                });
-                navMenu?.classList.add('opacity-0', 'pointer-events-none');
-                logoContainer.classList.add('pointer-events-none');
-                document.documentElement.classList.add('lock-scroll');
-                document.body.classList.add('lock-scroll');
+                openModal(this.getAttribute('data-id'));
             });
         });
 
