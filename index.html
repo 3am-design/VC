@@ -132,7 +132,7 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 3000000;
-            mix-blend-mode: difference;
+            mix-blend-difference: difference;
             transform: translate3d(-50%, -50%, 0);
             transition: width 0.3s ease-out, height 0.3s ease-out, border-radius 0.3s ease-out, mix-blend-mode 0.3s;
             display: flex;
@@ -220,7 +220,7 @@
     <!-- 中間的 3D 賽博球體 (全螢幕容器)。調整基礎透明度至 0.95 以明顯化 -->
     <div id="bg-video-wrapper" class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-95 transition-opacity duration-700 flex items-center justify-center mix-blend-screen overflow-hidden">
         <!-- Canvas 將由 Three.js 動態注入於此 -->
-        <!-- Facebook Blue 氛圍強化：調整顏色飽和度 -->
+        <!-- 背景漸變提升層次感 -->
         <div id="canvas-depth-layer" style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(0, 40, 110, 0.45) 0%, rgba(0,0,0,1) 80%);"></div>
     </div>
 
@@ -380,7 +380,7 @@
                 </div>
             </div>
             <div class="mt-8 text-center reveal-up">
-                <a href="#" class="text-[18px] min-[820px]:text-[18px] lg:text-[20px] font-bold leading-[76px] tracking-[0px] text-white transition duration-300 cursor-pointer border-b border-white">more +</a>
+                <a href="#" onClick={(e) => handleAnchorClick(e, '#works')} onMouseEnter={cursorActive} onMouseLeave={cursorInactive} className="text-[18px] min-[820px]:text-[18px] lg:text-[20px] font-bold leading-[76px] tracking-[0px] text-white transition duration-300 cursor-pointer border-b border-white">more +</a>
             </div>
         </section>
 
@@ -394,8 +394,8 @@
                     </h2>
                 </div>
                 <div class="col-span-4 min-[820px]:col-span-3 flex flex-col items-center min-[820px]:items-start justify-start mt-12 min-[820px]:mt-0 lg:mt-0 text-center min-[820px]:text-left">
-                    <a href="mailto:vcii@live.hk" class="text-[22px] min-[820px]:text-[35px] lg:text-[37px] font-medium leading-tight min-[820px]:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 100ms;">vcii@live.hk</a>
-                    <a href="tel:+85298408445" class="mt-[28px] min-[820px]:mt-[36px] text-[22px] min-[820px]:text-[35px] lg:text-[37px] font-medium leading-tight min-[820px]:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 200ms;">+852 9840 8445</a>
+                    <a href="mailto:vcii@live.hk" onMouseEnter={cursorActive} onMouseLeave={cursorInactive} className="text-[22px] min-[820px]:text-[35px] lg:text-[37px] font-medium leading-tight min-[820px]:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 100ms;">vcii@live.hk</a>
+                    <a href="tel:+85298408445" onMouseEnter={cursorActive} onMouseLeave={cursorInactive} className="mt-[28px] min-[820px]:mt-[36px] text-[22px] min-[820px]:text-[35px] lg:text-[37px] font-medium leading-tight min-[820px]:leading-tight lg:leading-[37px] tracking-[0px] text-white transition duration-300 cursor-pointer hover:opacity-70 reveal-up" style="transition-delay: 200ms;">+852 9840 8445</a>
                 </div>
             </div>
             <!-- Copyright 宣告 -->
@@ -513,32 +513,20 @@
             }
         }
 
-        // --- 3D 賽博球體 初始化與邏輯 ---
-        let scene, camera, renderer, innerPoints, outerShell, originalVertices, displacements, brightnessArr;
-        let mouse3D = new THREE.Vector2(-100, -100);
+        // --- 3D 科技絲帶球體 初始化與邏輯 ---
+        let scene, camera, renderer, ribbons;
         const clock = new THREE.Clock();
+        const mouse3D = new THREE.Vector3(0, 0, -10);
 
-        // 藍化與明顯化：調整粒子紋理漸變色，使其帶有強烈電光藍感與更高亮度
-        function createParticleTexture() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 64; canvas.height = 64;
-            const ctx = canvas.getContext('2d');
-            const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-            grad.addColorStop(0, 'rgba(255,255,255,1)');    // 核心純白
-            grad.addColorStop(0.25, 'rgba(24, 119, 242, 0.95)'); // Facebook Blue 高亮 (+5% Saturation/Alpha)
-            grad.addColorStop(0.6, 'rgba(8, 60, 150, 0.35)');   // 深藍基調 (+5% Alpha)
-            grad.addColorStop(1, 'rgba(0,0,0,0)');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, 64, 64);
-            return new THREE.CanvasTexture(canvas);
-        }
+        const RING_COUNT = 50;    
+        const SEGMENTS = 300;     
+        const RADIUS = 1.3;       
+        const BASE_THICKNESS = 0.0012; 
 
         function updateSphereScale() {
-            if (!innerPoints) return;
-            // 比例調整：Mobile 端的基礎縮放從 0.95 提升 30% 變為約 1.24
+            if (!ribbons) return;
             const scale = window.innerWidth < 820 ? 1.24 : 1.5;
-            innerPoints.scale.set(scale, scale, scale);
-            if (outerShell) outerShell.scale.setScalar(scale);
+            ribbons.scale.set(scale, scale, scale);
         }
 
         function initThreeJS() {
@@ -554,60 +542,121 @@
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             wrapper.appendChild(renderer.domElement);
 
-            // --- 內層：粒子點陣球 ---
-            const innerGeo = new THREE.SphereGeometry(1.2, 128, 128);
-            originalVertices = new Float32Array(innerGeo.attributes.position.array);
-            displacements = new Float32Array(innerGeo.attributes.position.count).fill(0);
-            brightnessArr = new Float32Array(innerGeo.attributes.position.count).fill(1.0);
-            innerGeo.setAttribute('brightness', new THREE.BufferAttribute(brightnessArr, 1));
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+            const uv = [];
+            const ringInfo = []; 
 
-            const innerMat = new THREE.PointsMaterial({
-                size: 0.028, 
-                map: createParticleTexture(),
+            for (let i = 0; i < RING_COUNT; i++) {
+                const phi = ((i + 0.5) / RING_COUNT) * Math.PI;
+                const y = Math.cos(phi) * RADIUS;
+                const ringRadius = Math.sin(phi) * RADIUS;
+
+                for (let j = 0; j <= SEGMENTS; j++) {
+                    const theta = (j / SEGMENTS) * Math.PI * 2;
+                    const x = Math.cos(theta) * ringRadius;
+                    const z = Math.sin(theta) * ringRadius;
+
+                    positions.push(x, y, z); 
+                    positions.push(x, y, z); 
+                    
+                    uv.push(j / SEGMENTS, 1);
+                    uv.push(j / SEGMENTS, 0);
+                    
+                    ringInfo.push(i, theta);
+                    ringInfo.push(i, theta);
+                }
+            }
+
+            const indices = [];
+            let offset = 0;
+            for (let i = 0; i < RING_COUNT; i++) {
+                for (let j = 0; j < SEGMENTS; j++) {
+                    const a = offset + j * 2;
+                    const b = offset + j * 2 + 1;
+                    const c = offset + (j + 1) * 2;
+                    const d = offset + (j + 1) * 2 + 1;
+                    indices.push(a, b, c, b, d, c);
+                }
+                offset += (SEGMENTS + 1) * 2;
+            }
+
+            geometry.setIndex(indices);
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+            geometry.setAttribute('ringInfo', new THREE.Float32BufferAttribute(ringInfo, 2));
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTime: { value: 0 },
+                    uMouse: { value: mouse3D },
+                    uColor: { value: new THREE.Color(0x1877f2) }, // 使用 Facebook Blue 作為基色
+                    uHighlight: { value: new THREE.Color(0x00ffff) } 
+                },
+                side: THREE.DoubleSide,
                 transparent: true,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false,
-                color: 0xddeeff // 更具備藍色感的基底
+                vertexShader: `
+                    uniform float uTime;
+                    uniform vec3 uMouse;
+                    attribute vec2 ringInfo;
+                    varying float vBrightness;
+                    varying vec2 vUv;
+
+                    void main() {
+                        float ringIdx = ringInfo.x;
+                        float angle = ringInfo.y;
+                        vec3 pos = position;
+                        
+                        float wave = sin(angle * 3.0 + uTime * 1.2 + ringIdx * 0.15) * 0.12;
+                        float secondaryWave = cos(ringIdx * 0.5 - uTime * 0.8) * 0.04;
+                        float totalWave = wave + secondaryWave;
+                        
+                        vec3 worldPos = pos;
+                        worldPos.xz *= (1.0 + totalWave);
+                        
+                        float dist = distance(worldPos, uMouse);
+                        float mouseInfluence = smoothstep(1.2, 0.0, dist);
+                        float mousePush = mouseInfluence * 0.25; 
+                        
+                        float pulse = sin(angle * 6.0 + uTime * 3.0 + ringIdx * 0.5) * 0.5 + 0.5;
+                        float currentThickness = ${BASE_THICKNESS.toFixed(4)} * (1.0 + pulse * 2.0 + mouseInfluence * 4.0);
+                        
+                        float vDirection = (uv.y - 0.5) * 2.0;
+                        pos.y += vDirection * currentThickness;
+                        
+                        float radiusScale = 1.0 + totalWave + mousePush;
+                        pos.xz *= radiusScale;
+
+                        vBrightness = 0.75 + pulse * 0.3 + totalWave * 1.5 + mouseInfluence * 1.8;
+                        vUv = uv;
+
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    uniform vec3 uColor;
+                    uniform vec3 uHighlight;
+                    varying float vBrightness;
+                    varying vec2 vUv;
+
+                    void main() {
+                        float edgeFade = smoothstep(0.0, 0.05, vUv.y) * smoothstep(1.0, 0.95, vUv.y);
+                        vec3 color = mix(uColor, uHighlight, vBrightness * 0.5);
+                        gl_FragColor = vec4(color, edgeFade * 0.95 * vBrightness);
+                    }
+                `
             });
 
-            innerMat.onBeforeCompile = (shader) => {
-                shader.vertexShader = `
-                    attribute float brightness;
-                    varying float vBrightness;
-                    ${shader.vertexShader}
-                `.replace(
-                    `gl_PointSize = size;`,
-                    `gl_PointSize = size * (0.6 + brightness * 0.95);
-                     vBrightness = brightness;`
-                );
-                shader.fragmentShader = `
-                    varying float vBrightness;
-                    ${shader.fragmentShader}
-                `.replace(
-                    `gl_FragColor = vec4( diffuse, opacity );`,
-                    `gl_FragColor = vec4( diffuse, opacity * vBrightness );`
-                );
-            };
-
-            innerPoints = new THREE.Points(innerGeo, innerMat);
-            scene.add(innerPoints);
-
-            // --- 外層：結構化經緯殼 (Facebook Blue 強化 + 5% Visibility) ---
-            const outerGeo = new THREE.SphereGeometry(1.22, 40, 40); 
-            const outerMat = new THREE.LineBasicMaterial({
-                color: 0x1877f2, // 正統 Facebook Blue
-                transparent: true,
-                opacity: 0.22,   // 提升透明度 (+5% 相對前一版)
-                blending: THREE.AdditiveBlending
-            });
-            const wireframe = new THREE.WireframeGeometry(outerGeo);
-            outerShell = new THREE.LineSegments(wireframe, outerMat);
-            scene.add(outerShell);
+            ribbons = new THREE.Mesh(geometry, material);
+            scene.add(ribbons);
 
             updateSphereScale();
             window.addEventListener('mousemove', (e) => {
-                mouse3D.x = (e.clientX / window.innerWidth) * 2 - 1;
-                mouse3D.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                const x = (e.clientX / window.innerWidth) * 2 - 1;
+                const y = -(e.clientY / window.innerHeight) * 2 + 1;
+                mouse3D.set(x * 2.5, y * 2.5, 1.0);
             });
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
@@ -622,53 +671,13 @@
         function animateThree() {
             requestAnimationFrame(animateThree);
             const time = clock.getElapsedTime();
-
-            const posAttr = innerPoints.geometry.attributes.position.array;
-            const brightAttr = innerPoints.geometry.attributes.brightness.array;
-            const mousePoint = new THREE.Vector3(mouse3D.x * 2.5, mouse3D.y * 2.5, 1.0);
-            const vector = new THREE.Vector3();
-
-            const scanY = Math.sin(time * 0.6) * 1.5;
-
-            for (let i = 0; i < displacements.length; i++) {
-                const idx = i * 3;
-                const ox = originalVertices[idx];
-                const oy = originalVertices[idx + 1];
-                const oz = originalVertices[idx + 2];
-
-                const noise = Math.sin(ox * 2 + time) * 0.02 + Math.cos(oz * 3 + time * 0.5) * 0.02;
-                
-                vector.set(ox, oy, oz);
-                vector.applyEuler(innerPoints.rotation);
-                const dist = vector.distanceTo(mousePoint);
-
-                if (dist < 1.1) {
-                    const power = Math.pow(1.1 - dist, 2) * 1.25;
-                    displacements[i] += power;
-                }
-                displacements[i] *= 0.94;
-
-                const scanEffect = Math.max(0, 1 - Math.abs(oy - scanY) * 9) * 1.6;
-                const interactEffect = dist < 0.7 ? (0.7 - dist) * 4.2 : 0;
-                
-                // 明興化強化：提升基底亮度至 0.45 (+5%)
-                brightAttr[i] = 0.45 + scanEffect + interactEffect + noise * 5.5;
-
-                const scale = 1 + noise + Math.min(displacements[i], 0.55);
-                posAttr[idx] = ox * scale;
-                posAttr[idx + 1] = oy * scale;
-                posAttr[idx + 2] = oz * scale;
+            
+            if (ribbons && ribbons.material.uniforms) {
+                ribbons.material.uniforms.uTime.value = time;
+                ribbons.rotation.y += 0.0012;
+                ribbons.rotation.x = Math.sin(time * 0.15) * 0.08;
+                ribbons.rotation.z = Math.cos(time * 0.08) * 0.05;
             }
-
-            innerPoints.geometry.attributes.position.needsUpdate = true;
-            innerPoints.geometry.attributes.brightness.needsUpdate = true;
-
-            outerShell.rotation.copy(innerPoints.rotation);
-            outerShell.scale.setScalar(innerPoints.scale.x * (1 + Math.sin(time * 0.5) * 0.01));
-
-            innerPoints.rotation.y += 0.0018;
-            innerPoints.rotation.x = Math.sin(time * 0.22) * 0.15;
-            innerPoints.rotation.z = Math.cos(time * 0.16) * 0.1;
 
             renderer.render(scene, camera);
         }
@@ -682,10 +691,8 @@
         window.addEventListener('scroll', () => {
             const pageYOffset = window.pageYOffset;
             const heroHeight = heroSection?.offsetHeight || window.innerHeight;
-            
             const progress = Math.min(pageYOffset / heroHeight, 1);
             
-            // 明顯化優化：初始 0.95，最暗降至 0.5 (減少變暗程度)
             const startOpacity = 0.95;
             const endOpacity = 0.5;
             const currentOpacity = startOpacity - (progress * (startOpacity - endOpacity));
@@ -701,28 +708,22 @@
             }
         });
 
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                e.preventDefault();
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({ top: targetElement.offsetTop, behavior: 'smooth' });
-                }
-            });
-        });
-
-        const commonDescPrefix = "Co-founded in the 1980s by Alice King, Alisan Fine Arts is Hong Kong’s longest-standing contemporary gallery, celebrated for its trailblazing promotion of Chinese contemporary art and New Ink art. The gallery has consistently championed artists from the Greater China region and Chinese diaspora, making an impact on cross-cultural dialogues and global appreciation of diverse artistic expressions. With locations in Hong Kong’s Central and Aberdeen districts, as well as New York, Alisan Fine Arts is committed to expanding its vision by fostering an innovative creative platform and supporting the next generation of Chinese contemporary artists worldwide.";
+        const handleAnchorClick = (e, targetId) => {
+            e.preventDefault();
+            const target = document.querySelector(targetId);
+            if (target) {
+                window.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+            }
+        };
 
         const projectsData = {
-            '01': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp One', desc: `${commonDescPrefix} (one)`, imagesCount: 3 },
-            '02': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Two', desc: `${commonDescPrefix} (two)`, imagesCount: 3 },
-            '03': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Three', desc: `${commonDescPrefix} (three)`, imagesCount: 3 },
-            '04': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Four', desc: `${commonDescPrefix} (four)`, imagesCount: 3 },
-            '05': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Five', desc: `${commonDescPrefix} (five)`, imagesCount: 3 },
-            '06': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Six', desc: `${commonDescPrefix} (six)`, imagesCount: 3 },
-            '07': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Seven', desc: `${commonDescPrefix} (seven)`, imagesCount: 3 }
+            '01': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp One', desc: `Co-founded in the 1980s by Alice King, Alisan Fine Arts is Hong Kong’s longest-standing contemporary gallery, celebrated for its trailblazing promotion of Chinese contemporary art and New Ink art.`, imagesCount: 3 },
+            '02': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Two', desc: `...`, imagesCount: 3 },
+            '03': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Three', desc: `...`, imagesCount: 3 },
+            '04': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Four', desc: `...`, imagesCount: 3 },
+            '05': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Five', desc: `...`, imagesCount: 3 },
+            '06': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Six', desc: `...`, imagesCount: 3 },
+            '07': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp Seven', desc: `...`, imagesCount: 3 }
         };
 
         const modal = document.getElementById('project-modal');
@@ -756,7 +757,6 @@
                 for (let i = 1; i <= data.imagesCount; i++) {
                     const img = document.createElement('img');
                     img.src = `./assets/works/${id}/${id}_image_${i.toString().padStart(2, '0')}.webp`;
-                    // 圖片預載背景也調深
                     img.className = 'w-full h-auto object-cover mb-12 bg-[#050505] reveal-image';
                     img.onerror = function() { this.remove(); };
                     imagesContainer.appendChild(img);
