@@ -217,9 +217,10 @@
         <div class="grid-col-guide"></div><div class="grid-col-guide"></div><div class="grid-col-guide"></div>
     </div>
 
-    <!-- 中間的 3D 賽博球體 (全螢幕容器)。調整基礎透明度至 0.95 以明顯化 -->
-    <div id="bg-video-wrapper" class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-95 transition-opacity duration-700 flex items-center justify-center mix-blend-screen overflow-hidden">
+    <!-- 中間的 3D 賽博球體 (全螢幕容器)。調整基礎透明度至最高 (1.0) 以明顯化 -->
+    <div id="bg-video-wrapper" class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-100 transition-opacity duration-700 flex items-center justify-center mix-blend-screen overflow-hidden">
         <!-- Canvas 將由 Three.js 動態注入於此 -->
+        <!-- Facebook Blue 氛圍強化：調整顏色飽和度 -->
         <div id="canvas-depth-layer" style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(0, 40, 110, 0.45) 0%, rgba(0,0,0,1) 80%);"></div>
     </div>
 
@@ -341,7 +342,7 @@
                         <span class="h-[31px] flex items-center border border-white/30 px-4 rounded-full text-[12px] min-[820px]:text-[14px] lg:text-[16px] font-normal tracking-[0px] reveal-up" style="transition-delay: 450ms;">SQL</span>
                     </div>
                 </div>
-                <!-- Award Logos -->
+                {/* Award Logos */}
                 <div class="col-span-4 min-[820px]:col-start-4 min-[820px]:col-span-3 grid grid-cols-3 gap-y-12 gap-x-4 min-[820px]:flex min-[820px]:flex-wrap min-[820px]:gap-12 items-center justify-items-center min-[820px]:justify-start mt-4 min-[820px]:mt-4 lg:mt-[20px]">
                     <img src="./assets/home/HKDA.svg" alt="HKDA" class="w-[33px] min-[820px]:w-[33px] lg:w-[41px] object-contain brightness-0 invert reveal-up" style="transition-delay: 100ms;">
                     <img src="./assets/home/Awwwards.svg" alt="Awwwards" class="w-[96px] min-[820px]:w-[96px] lg:w-[120px] object-contain brightness-0 invert reveal-up" style="transition-delay: 150ms;">
@@ -512,7 +513,7 @@
             }
         }
 
-        // --- 3D 科技絲帶球體 初始化與邏輯 ---
+        // --- 3D 賽博球體 初始化與邏輯 ---
         let scene, camera, renderer, ribbons, dustPoints;
         const clock = new THREE.Clock();
         const raycaster = new THREE.Raycaster();
@@ -632,7 +633,7 @@
                         float radiusScale = 1.0 + totalWave + mouseEffect * 0.12;
                         pos.xz *= radiusScale;
 
-                        // 亮度微升 (+5%)
+                        // 亮度微升
                         vBrightness = 0.61 + pulse * 0.5 + totalWave * 1.5 + mouseEffect * 1.35;
                         vUv = uv;
 
@@ -672,7 +673,7 @@
                 dustPositions[i * 3 + 2] = r * Math.cos(phi);
 
                 const rnd = Math.random();
-                const baseBlue = new THREE.Color(0x1877f2); // 改為 Facebook Blue
+                const baseBlue = new THREE.Color(0x1877f2); 
                 const darkBlue = new THREE.Color(0x0033aa); 
                 const white = new THREE.Color(0xffffff);
                 
@@ -692,7 +693,7 @@
             const dustMaterial = new THREE.PointsMaterial({
                 size: 0.015, 
                 transparent: true,
-                opacity: 0.32, // 亮度微升 (+5%)
+                opacity: 0.32, 
                 blending: THREE.AdditiveBlending,
                 vertexColors: true,
                 sizeAttenuation: true 
@@ -701,10 +702,16 @@
             dustPoints = new THREE.Points(dustGeometry, dustMaterial);
             scene.add(dustPoints);
 
+            // 輔助碰撞球
+            const hitSphereGeo = new THREE.SphereGeometry(RADIUS, 32, 32);
+            const hitSphereMat = new THREE.MeshBasicMaterial({ visible: false });
+            const hitSphereMesh = new THREE.Mesh(hitSphereGeo, hitSphereMat);
+            scene.add(hitSphereMesh);
+
             updateSphereScale();
             window.addEventListener('mousemove', (e) => {
                 mouse2D.x = (e.clientX / window.innerWidth) * 2 - 1;
-                mouse2D.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                mouse2D.y = -(e.clientY / window.innerHeight) * 2 + 1;
             });
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
@@ -713,44 +720,43 @@
                 updateSphereScale();
             });
 
+            const animateThree = () => {
+                requestAnimationFrame(animateThree);
+                const time = clock.getElapsedTime();
+                
+                if (ribbons) {
+                    ribbons.material.uniforms.uTime.value = time;
+                    
+                    raycaster.setFromCamera(mouse2D, camera);
+                    const intersectPoint = new THREE.Vector3();
+                    let isIntersecting = false;
+                    
+                    if (raycaster.ray.intersectSphere(hitSphere, intersectPoint)) {
+                        const worldHit = intersectPoint.clone();
+                        ribbons.worldToLocal(worldHit);
+                        targetLocalMouse.copy(worldHit);
+                        isIntersecting = true;
+                    } 
+                    
+                    localMouse.lerp(targetLocalMouse, 0.1); 
+                    
+                    const targetInf = isIntersecting ? 1.0 : 0.0;
+                    const lerpSpeed = isIntersecting ? 0.1 : 0.02; 
+                    currentInfluenceValue = THREE.MathUtils.lerp(currentInfluenceValue, targetInf, lerpSpeed);
+                    
+                    ribbons.material.uniforms.uInfluence.value = currentInfluenceValue;
+                    ribbons.material.uniforms.uLocalMouse.value.copy(localMouse);
+
+                    ribbons.rotation.y += 0.001;
+                    ribbons.rotation.x = Math.sin(time * 0.15) * 0.08;
+                }
+                if (dustPoints) {
+                    dustPoints.rotation.y += 0.00045;
+                }
+
+                renderer.render(scene, camera);
+            };
             animateThree();
-        }
-
-        function animateThree() {
-            requestAnimationFrame(animateThree);
-            const time = clock.getElapsedTime();
-            
-            if (ribbons) {
-                ribbons.material.uniforms.uTime.value = time;
-                
-                raycaster.setFromCamera(mouse2D, camera);
-                const intersectPoint = new THREE.Vector3();
-                let isIntersecting = false;
-                
-                if (raycaster.ray.intersectSphere(hitSphere, intersectPoint)) {
-                    const worldHit = intersectPoint.clone();
-                    ribbons.worldToLocal(worldHit);
-                    targetLocalMouse.copy(worldHit);
-                    isIntersecting = true;
-                } 
-                
-                localMouse.lerp(targetLocalMouse, 0.1); 
-                
-                const targetInf = isIntersecting ? 1.0 : 0.0;
-                const lerpSpeed = isIntersecting ? 0.1 : 0.02; 
-                currentInfluenceValue = THREE.MathUtils.lerp(currentInfluenceValue, targetInf, lerpSpeed);
-                
-                ribbons.material.uniforms.uInfluence.value = currentInfluenceValue;
-                ribbons.material.uniforms.uLocalMouse.value.copy(localMouse);
-
-                ribbons.rotation.y += 0.001;
-                ribbons.rotation.x = Math.sin(time * 0.15) * 0.08;
-            }
-            if (dustPoints) {
-                dustPoints.rotation.y += 0.00045;
-            }
-
-            renderer.render(scene, camera);
         }
 
         window.addEventListener('load', () => {
@@ -764,19 +770,25 @@
             const heroHeight = heroSection?.offsetHeight || window.innerHeight;
             const progress = Math.min(pageYOffset / heroHeight, 1);
             
-            // 明顯化：初始 0.95，最暗降至 0.5
-            const startOpacity = 0.95;
-            const endOpacity = 0.5;
-            const currentOpacity = startOpacity - (progress * (startOpacity - endOpacity));
+            const isMobile = window.innerWidth < 820;
+            // 初始亮度：Mobile 為 1.0，Desktop 為 0.95
+            const startOpacity = isMobile ? 1.0 : 0.95;
+            // 捲動後亮度提升：Mobile 為 0.75，Desktop 為 0.68
+            const endOpacity = isMobile ? 0.75 : 0.68;
             
+            const currentOpacity = startOpacity - (progress * (startOpacity - endOpacity));
             bgVideoWrapper.style.opacity = currentOpacity;
             
             if (pageYOffset > 100) {
                 logoContainer.classList.remove('opacity-0');
                 logoContainer.classList.add('opacity-100');
+                logoContainer.classList.remove('pointer-events-none');
+                logoContainer.classList.add('pointer-events-auto');
             } else {
                 logoContainer.classList.remove('opacity-100');
                 logoContainer.classList.add('opacity-0');
+                logoContainer.classList.add('pointer-events-none');
+                logoContainer.classList.remove('pointer-events-auto');
             }
         });
 
