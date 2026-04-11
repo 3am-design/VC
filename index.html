@@ -220,7 +220,6 @@
     <!-- 中間的 3D 賽博球體 (全螢幕容器)。調整基礎透明度至 0.95 以明顯化 -->
     <div id="bg-video-wrapper" class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-95 transition-opacity duration-700 flex items-center justify-center mix-blend-screen overflow-hidden">
         <!-- Canvas 將由 Three.js 動態注入於此 -->
-        <!-- Facebook Blue 氛圍強化：調整顏色飽和度 -->
         <div id="canvas-depth-layer" style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(0, 40, 110, 0.45) 0%, rgba(0,0,0,1) 80%);"></div>
     </div>
 
@@ -459,28 +458,21 @@
             cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate3d(-50%, -50%, 0)`;
         });
 
-        const cursorActive = () => cursor.classList.add('active');
-        const cursorInactive = () => cursor.classList.remove('active');
-        const cursorDiscover = () => cursor.classList.add('discover');
-        const cursorUndiscover = () => cursor.classList.remove('discover');
-        const cursorScroll = () => cursor.classList.add('scroll-mode');
-        const cursorUnscroll = () => cursor.classList.remove('scroll-mode');
-
         const bindHovers = () => {
             document.querySelectorAll('a, button, .cursor-pointer:not(.portfolio-item):not(#modal-backdrop)').forEach(el => {
-                el.addEventListener('mouseenter', cursorActive);
-                el.addEventListener('mouseleave', cursorInactive);
+                el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
             });
             document.querySelectorAll('.portfolio-item').forEach(el => {
-                el.addEventListener('mouseenter', cursorDiscover);
-                el.addEventListener('mouseleave', cursorUndiscover);
+                el.addEventListener('mouseenter', () => cursor.classList.add('discover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('discover'));
             });
         };
         bindHovers();
 
         const modalImagesContainer = document.getElementById('modal-images-container');
-        modalImagesContainer.addEventListener('mouseenter', cursorScroll);
-        modalImagesContainer.addEventListener('mouseleave', cursorUnscroll);
+        modalImagesContainer.addEventListener('mouseenter', () => cursor.classList.add('scroll-mode'));
+        modalImagesContainer.addEventListener('mouseleave', () => cursor.classList.remove('scroll-mode'));
 
         const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -523,20 +515,22 @@
         // --- 3D 科技絲帶球體 初始化與邏輯 ---
         let scene, camera, renderer, ribbons, dustPoints;
         const clock = new THREE.Clock();
-        const mouse2D = new THREE.Vector2(-2, -2);
-        const localMouse = new THREE.Vector3(0, 0, -10);
-        const targetLocalMouse = new THREE.Vector3(0, 0, -10);
         const raycaster = new THREE.Raycaster();
+        const mouse2D = new THREE.Vector2(-2, -2);
+        const localMouse = new THREE.Vector3(0, 0, 0);
+        const targetLocalMouse = new THREE.Vector3(0, 0, 0);
+        let currentInfluenceValue = 0;
 
         const RING_COUNT = 50;    
         const SEGMENTS = 300;     
         const RADIUS = 1.3;       
         const BASE_THICKNESS = 0.0008; 
-        const DUST_COUNT = 1500;
+        const DUST_COUNT = 5000; // 粒子數量增加多 56% 以明顯化 (原本 3200)
         const hitSphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), RADIUS);
 
         function updateSphereScale() {
             if (!ribbons) return;
+            // 比例調整：Mobile 端的基礎縮放從 0.95 提升 30% 變為約 1.24
             const scale = window.innerWidth < 820 ? 1.24 : 1.5;
             ribbons.scale.set(scale, scale, scale);
             if (dustPoints) dustPoints.scale.setScalar(scale);
@@ -598,7 +592,8 @@
                 uniforms: {
                     uTime: { value: 0 },
                     uLocalMouse: { value: localMouse },
-                    uColor: { value: new THREE.Color(0x001aee) }, 
+                    uInfluence: { value: 0 },
+                    uColor: { value: new THREE.Color(0x001aee) },
                     uHighlight: { value: new THREE.Color(0x00ffff) }
                 },
                 side: THREE.DoubleSide,
@@ -608,6 +603,7 @@
                 vertexShader: `
                     uniform float uTime;
                     uniform vec3 uLocalMouse;
+                    uniform float uInfluence;
                     attribute vec2 ringInfo;
                     varying float vBrightness;
                     varying vec2 vUv;
@@ -618,23 +614,26 @@
                         vec3 pos = position;
                         
                         float wave = sin(angle * 3.0 + uTime * 1.2 + ringIdx * 0.15) * 0.12;
-                        float secondaryWave = cos(ringIdx * 0.5 - uTime * 0.8) * 0.04;
+                        float secondaryWave = cos(ringIdx * 0.4 - uTime * 0.8) * 0.04;
                         float totalWave = wave + secondaryWave;
                         
                         vec3 distortedPos = pos * (1.0 + totalWave);
                         float dist = distance(distortedPos, uLocalMouse);
-                        float mouseInfluence = smoothstep(1.5, 0.0, dist);
+                        float mouseEffect = smoothstep(1.5, 0.0, dist) * uInfluence;
 
                         float pulse = sin(angle * 6.0 + uTime * 3.0 + ringIdx * 0.5) * 0.5 + 0.5;
-                        float currentThickness = ${BASE_THICKNESS.toFixed(4)} * (1.0 + pulse * 2.0 + mouseInfluence * 2.0);
+                        
+                        // Hover 時線幼番少少
+                        float currentThickness = ${BASE_THICKNESS.toFixed(4)} * (1.0 + pulse * 2.0) * (1.0 - mouseEffect * 0.5);
                         
                         float vDirection = (uv.y - 0.5) * 2.0;
                         pos.y += vDirection * currentThickness;
                         
-                        float radiusScale = 1.0 + totalWave + mouseInfluence * 0.1;
+                        float radiusScale = 1.0 + totalWave + mouseEffect * 0.12;
                         pos.xz *= radiusScale;
 
-                        vBrightness = 0.52 + pulse * 0.45 + totalWave * 1.4 + mouseInfluence * 1.2;
+                        // 亮度微升 (+5%)
+                        vBrightness = 0.61 + pulse * 0.5 + totalWave * 1.5 + mouseEffect * 1.35;
                         vUv = uv;
 
                         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -648,9 +647,9 @@
 
                     void main() {
                         float edgeFade = smoothstep(0.0, 0.05, vUv.y) * smoothstep(1.0, 0.95, vUv.y);
-                        float glow = pow(vBrightness * 0.75, 1.4); 
-                        vec3 color = mix(uColor, uHighlight, smoothstep(0.5, 2.5, vBrightness));
-                        gl_FragColor = vec4(color, edgeFade * 1.05 * glow);
+                        float glow = pow(vBrightness * 0.78, 1.4); 
+                        vec3 color = mix(uColor, uHighlight, smoothstep(0.45, 2.4, vBrightness));
+                        gl_FragColor = vec4(color, edgeFade * 1.15 * glow);
                     }
                 `
             });
@@ -658,21 +657,48 @@
             ribbons = new THREE.Mesh(geometry, material);
             scene.add(ribbons);
 
-            //星塵粒子系統
+            // --- 進階粉塵系統 ---
             const dustGeometry = new THREE.BufferGeometry();
             const dustPositions = new Float32Array(DUST_COUNT * 3);
+            const dustColors = new Float32Array(DUST_COUNT * 3); 
+
             for (let i = 0; i < DUST_COUNT; i++) {
-                const r = RADIUS * (1.0 + Math.random() * 1.5); 
+                const r = RADIUS * (1.0 + Math.random() * 1.6); 
                 const theta = Math.random() * Math.PI * 2;
                 const phi = Math.acos(2 * Math.random() - 1);
+
                 dustPositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
                 dustPositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
                 dustPositions[i * 3 + 2] = r * Math.cos(phi);
+
+                const rnd = Math.random();
+                const baseBlue = new THREE.Color(0x1877f2); // 改為 Facebook Blue
+                const darkBlue = new THREE.Color(0x0033aa); 
+                const white = new THREE.Color(0xffffff);
+                
+                let finalColor;
+                if (rnd < 0.05) finalColor = white;
+                else if (rnd < 0.15) finalColor = darkBlue;
+                else finalColor = baseBlue;
+
+                dustColors[i * 3] = finalColor.r;
+                dustColors[i * 3 + 1] = finalColor.g;
+                dustColors[i * 3 + 2] = finalColor.b;
             }
+
             dustGeometry.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
-            dustPoints = new THREE.Points(dustGeometry, new THREE.PointsMaterial({
-                color: 0x00aaff, size: 0.012, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending
-            }));
+            dustGeometry.setAttribute('color', new THREE.BufferAttribute(dustColors, 3)); 
+
+            const dustMaterial = new THREE.PointsMaterial({
+                size: 0.015, 
+                transparent: true,
+                opacity: 0.32, // 亮度微升 (+5%)
+                blending: THREE.AdditiveBlending,
+                vertexColors: true,
+                sizeAttenuation: true 
+            });
+
+            dustPoints = new THREE.Points(dustGeometry, dustMaterial);
             scene.add(dustPoints);
 
             updateSphereScale();
@@ -697,24 +723,31 @@
             if (ribbons) {
                 ribbons.material.uniforms.uTime.value = time;
                 
-                // Raycasting 處理本地空間 Mouse
                 raycaster.setFromCamera(mouse2D, camera);
                 const intersectPoint = new THREE.Vector3();
+                let isIntersecting = false;
+                
                 if (raycaster.ray.intersectSphere(hitSphere, intersectPoint)) {
                     const worldHit = intersectPoint.clone();
                     ribbons.worldToLocal(worldHit);
                     targetLocalMouse.copy(worldHit);
-                } else {
-                    targetLocalMouse.set(0, 0, -10);
-                }
-                localMouse.lerp(targetLocalMouse, 0.08); 
+                    isIntersecting = true;
+                } 
+                
+                localMouse.lerp(targetLocalMouse, 0.1); 
+                
+                const targetInf = isIntersecting ? 1.0 : 0.0;
+                const lerpSpeed = isIntersecting ? 0.1 : 0.02; 
+                currentInfluenceValue = THREE.MathUtils.lerp(currentInfluenceValue, targetInf, lerpSpeed);
+                
+                ribbons.material.uniforms.uInfluence.value = currentInfluenceValue;
                 ribbons.material.uniforms.uLocalMouse.value.copy(localMouse);
 
                 ribbons.rotation.y += 0.001;
                 ribbons.rotation.x = Math.sin(time * 0.15) * 0.08;
             }
             if (dustPoints) {
-                dustPoints.rotation.y += 0.0005;
+                dustPoints.rotation.y += 0.00045;
             }
 
             renderer.render(scene, camera);
@@ -731,6 +764,7 @@
             const heroHeight = heroSection?.offsetHeight || window.innerHeight;
             const progress = Math.min(pageYOffset / heroHeight, 1);
             
+            // 明顯化：初始 0.95，最暗降至 0.5
             const startOpacity = 0.95;
             const endOpacity = 0.5;
             const currentOpacity = startOpacity - (progress * (startOpacity - endOpacity));
@@ -745,14 +779,6 @@
                 logoContainer.classList.add('opacity-0');
             }
         });
-
-        const handleAnchorClick = (e, targetId) => {
-            e.preventDefault();
-            const target = document.querySelector(targetId);
-            if (target) {
-                window.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
-            }
-        };
 
         const projectsData = {
             '01': { category: 'Project Highlight', title: 'Alisan Fine Arts Website Revamp One', desc: `Co-founded in the 1980s by Alice King, Alisan Fine Arts is Hong Kong’s longest-standing contemporary gallery, celebrated for its trailblazing promotion of Chinese contemporary art and New Ink art.`, imagesCount: 3 },
